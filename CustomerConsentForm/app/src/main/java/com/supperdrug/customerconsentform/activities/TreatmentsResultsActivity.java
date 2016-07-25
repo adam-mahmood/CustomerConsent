@@ -35,7 +35,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by adammahmood on 24/07/2016.
@@ -54,7 +56,7 @@ public class TreatmentsResultsActivity extends AppCompatActivity implements Load
 
     private boolean checked;
 
-    private List<CustomerTreatment> selectedTreatments = new ArrayList<>();
+    private Set<CustomerTreatment> selectedTreatments = new HashSet<>();
     // UI references.
 
     private Button next;
@@ -90,9 +92,19 @@ public class TreatmentsResultsActivity extends AppCompatActivity implements Load
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CustomerTreatment cus =(CustomerTreatment) parent.getItemAtPosition(position);
-                System.out.println( "Hello");
+                CheckBox selected =(CheckBox) view.findViewById(R.id.rec_treatment_selected);
+                cus.setSelected(!cus.isSelected());
+                selected.setChecked(cus.isSelected());
+                if(cus.isSelected()){
+                    selectedTreatments.add(cus);
+                }else {
+                    if(selectedTreatments.contains(cus)){
+                        selectedTreatments.remove(cus);
+                    }
+                }
                 //Toast.makeText(getBaseContext(), cus.toString(), Toast.LENGTH_LONG).show();
                 //navigateToSignaureAndAgreementActivity(cus);
+                System.out.println(selectedTreatments);
             }
         });
     }
