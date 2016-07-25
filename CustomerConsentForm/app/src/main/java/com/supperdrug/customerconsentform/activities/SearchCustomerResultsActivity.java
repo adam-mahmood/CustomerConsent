@@ -110,6 +110,7 @@ public class SearchCustomerResultsActivity extends AppCompatActivity implements 
         Intent treatmentsIntent = new Intent(getApplicationContext(),TreatmentsResultsActivity.class);
         treatmentsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         treatmentsIntent.putExtra("customerTreatments",customerJson.toString());
+        treatmentsIntent.putExtra("Staff_Name",searchCustomerResultsIntent.getStringExtra("Staff_Name"));
         startActivity(treatmentsIntent);
     }
 

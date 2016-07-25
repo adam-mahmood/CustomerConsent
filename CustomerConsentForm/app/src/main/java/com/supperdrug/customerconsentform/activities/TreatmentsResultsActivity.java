@@ -42,7 +42,7 @@ import java.util.Set;
 /**
  * Created by adammahmood on 24/07/2016.
  */
-public class TreatmentsResultsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,WebService {
+public class TreatmentsResultsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -56,7 +56,7 @@ public class TreatmentsResultsActivity extends AppCompatActivity implements Load
 
     private boolean checked;
 
-    private Set<CustomerTreatment> selectedTreatments = new HashSet<>();
+    private ArrayList<String> selectedTreatments = new ArrayList<>();
     // UI references.
 
     private Button next;
@@ -74,7 +74,6 @@ public class TreatmentsResultsActivity extends AppCompatActivity implements Load
 
         treatmentsIntent = getIntent();
         customerTreatments = treatmentsIntent.getStringExtra("customerTreatments");
-        System.out.println(customerTreatments);
         // Set up the login form.
         findViewsById();
         try {
@@ -96,21 +95,38 @@ public class TreatmentsResultsActivity extends AppCompatActivity implements Load
                 cus.setSelected(!cus.isSelected());
                 selected.setChecked(cus.isSelected());
                 if(cus.isSelected()){
-                    selectedTreatments.add(cus);
+                    selectedTreatments.add(cus.getTreatmentName());
                 }else {
-                    if(selectedTreatments.contains(cus)){
-                        selectedTreatments.remove(cus);
+                    if(selectedTreatments.contains(cus.getTreatmentName())){
+                        selectedTreatments.remove(cus.getTreatmentName());
                     }
                 }
                 //Toast.makeText(getBaseContext(), cus.toString(), Toast.LENGTH_LONG).show();
-                //navigateToSignaureAndAgreementActivity(cus);
-                System.out.println(selectedTreatments);
+
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(selectedTreatments.isEmpty()){
+                    Toast.makeText(getBaseContext(), "Please select a treatment before proceeding ahead!", Toast.LENGTH_LONG).show();
+                }else {
+                    navigateToSignatureAndAgreementActivity();
+                }
+
             }
         });
     }
 
-    private void navigateToSignaureAndAgreementActivity(Customer cus) {
-
+    private void navigateToSignatureAndAgreementActivity() {
+        Intent signatureIntent = new Intent(getApplicationContext(),SignatureAndAgreementActivity.class);
+        signatureIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Bundle b = new Bundle();
+        b.putStringArrayList("selectedTreatments", selectedTreatments);
+        signatureIntent.putExtras(b);
+        signatureIntent.putExtra("Staff_Name",treatmentsIntent.getStringExtra("Staff_Name"));
+        System.out.println("Hello2");
+        startActivity(signatureIntent);
     }
 
 
@@ -120,74 +136,6 @@ public class TreatmentsResultsActivity extends AppCompatActivity implements Load
         mCustomerTreatmentsFormView = findViewById(R.id.customer_treatments_view);
         mProgressView = findViewById(R.id.customer_treatments_progress);
     }
-
-    /**
-     * Method that performs RESTful webservice invocations
-     *
-     * @param params
-     */
-    @Override
-    public void invokeWS(RequestParams params){
-        // Show Progress Dialog
-        showProgress(true);
-
-
-        AsyncHttpResponseHandler responsehandler = new AsyncHttpResponseHandler() {
-            // When the response returned by REST has Http response code '200'
-            @Override
-            public void onSuccess(String response) {
-                // Hide Progress Dialog
-                showProgress(false);
-                try {
-                    // JSON Object
-                    JSONObject obj = new JSONObject(response);
-
-                    // When the JSON response has status boolean value assigned with true
-                    if(obj.getInt("status") == 200){
-                        Log.i(TAG,"Invoking Web Services Success!");
-                        Toast.makeText(getApplicationContext(), "Retrieving Customer Treatments!", Toast.LENGTH_LONG).show();
-                        JSONArray CustomerJson = obj.getJSONArray("results");
-                        // Navigate to Customer Records Screen
-                        //navigatetoSearchCustomerResultsActivity(CustomerJson);
-
-                    }
-                    // Else display error message
-                    else{
-                        errMsg.setText(obj.getString("message"));
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-
-                }
-            }
-            // When the response returned by REST has Http response code other than '200'
-            @Override
-            public void onFailure(int statusCode, Throwable error,
-                                  String content) {
-                Log.i(TAG,"Invoking Web Services Failed");
-                Log.i(TAG,"Status Code= " +statusCode);
-                System.out.println(statusCode);
-                // Hide Progress Dialog
-                showProgress(false);
-                // When Http response code is '404'
-                if(statusCode == 404){
-                    Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
-                }
-                // When Http response code is '500'
-                else if(statusCode == 500){
-                    Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
-                }
-                // When Http response code other than 404, 500
-                else{
-                    Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet or remote server is not up and running]", Toast.LENGTH_LONG).show();
-                }
-            }
-        };
-        CustomerConsentFormRestClient.get("superdrug/customertreatments",params ,responsehandler);
-    }
-
     /**
      * Shows the progress UI and hides the login form.
      */

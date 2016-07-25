@@ -3,7 +3,7 @@ package com.supperdrug.customerconsentform.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager.LoaderCallbacks;
+import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -15,71 +15,113 @@ import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.gcacace.signaturepad.views.SignaturePad;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.supperdrug.customerconsentform.R;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
-import com.supperdrug.customerconsentform.models.Staff;
+import com.supperdrug.customerconsentform.utilities.Utility;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
- * A login screen that offers login via email/password.
+ * Created by adammahmood on 25/07/2016.
  */
-public class MainMenuAdminActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
-
+public class SignatureAndAgreementActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,WebService {
     /**
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    private static  final String TAG = MainMenuAdminActivity.class.getName();
+    private static  final String TAG = SignatureAndAgreementActivity.class.getName();
 
-    private Intent staffIntent;
+    private Intent intent;
 
-    private Staff staff;
+    private ArrayList<String> customerTreatments;
+
+    private boolean isSigned;
+
+    private String staffName;
     // UI references.
 
+    private Button saveAndComplete;
+    private SignaturePad signaturePad;
+    private TextView therapistName;
+    private TextView date;
     private View mProgressView;
-    private View mMainMenuAdminFormView;
-    private ImageButton searchCustomer;
-    private ImageButton newCustomer;
-    private ImageButton manageAccounts;
-    private ImageButton signOut;
+    private View mSignatureFormView;
+
+    private TextView errMsg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_menu_admin);
-        staffIntent = getIntent();
-        staff = staffIntent.getExtras().getParcelable("staff");
-        // Set up the login form.
-        searchCustomer = (ImageButton) findViewById(R.id.image_button_search);
-        searchCustomer.setOnClickListener(new View.OnClickListener() {
+        setContentView(R.layout.signature_and_agreement);
+        intent = getIntent();
+        staffName = intent.getStringExtra("Staff_Name");
+        customerTreatments = intent.getStringArrayListExtra("selectedTreatments");
+        findViewsById();
+
+        signaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
             @Override
-            public void onClick(View view) {
-                navigateToSearchCustomerView(view);
+            public void onStartSigning() {
+
+            }
+
+            @Override
+            public void onSigned() {
+                isSigned = true;
+            }
+
+            @Override
+            public void onClear() {
+                isSigned =false;
             }
         });
-        newCustomer = (ImageButton) findViewById(R.id.image_button_create_new_customer);
-        manageAccounts = (ImageButton) findViewById(R.id.image_button_manage_accounts);
-        signOut = (ImageButton) findViewById(R.id.image_button_sign_out);
+        saveAndComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isSigned && Utility.isNotNull(therapistName.getText().toString())){
+                    navigateToUploadActivity();
+                }else{
+                    Toast.makeText(getBaseContext(), "Please Sign!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
-        mMainMenuAdminFormView = findViewById(R.id.main_menu_form_view);
-        mProgressView = findViewById(R.id.login_progress);
     }
 
-    private void navigateToSearchCustomerView(View view) {
-        Intent searchCustomerIntent = new Intent(getApplicationContext(),SearchCustomerActivity.class);
-        searchCustomerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        searchCustomerIntent.putExtra("Staff_Name",staff.getForename() + " " + staff.getSurname());
-        startActivity(searchCustomerIntent);
+    private void navigateToUploadActivity() {
+        Intent uploadIntent = new Intent(getApplicationContext(),SignatureAndAgreementActivity.class);
+        uploadIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        uploadIntent.putExtra("Staff_Name",staffName);
+        startActivity(uploadIntent);
+    }
+
+
+    private void findViewsById() {
+        signaturePad = (SignaturePad) findViewById(R.id.signature_pad) ;
+        saveAndComplete = (Button) findViewById(R.id.signature_save_and_complete);
+        therapistName = (TextView)findViewById(R.id.signature_therapist_name_text) ;
+        therapistName.setText(staffName);
+        date = (TextView)findViewById(R.id.signature_date_text) ;
+        DateFormat df = new SimpleDateFormat("dd/MM/yy");
+        date.setText(df.format(new Date()));
+        mSignatureFormView = findViewById(R.id.signature_view);
+        mProgressView = findViewById(R.id.signature_progress);
     }
 
     /**
@@ -87,6 +129,7 @@ public class MainMenuAdminActivity extends AppCompatActivity implements LoaderCa
      *
      * @param params
      */
+    @Override
     public void invokeWS(RequestParams params){
         // Show Progress Dialog
         showProgress(true);
@@ -105,18 +148,18 @@ public class MainMenuAdminActivity extends AppCompatActivity implements LoaderCa
                     // When the JSON response has status boolean value assigned with true
                     if(obj.getInt("status") == 200){
                         Log.i(TAG,"Invoking Web Services Success!");
-                        Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_LONG).show();
-                        // Navigate to Home screen
-                        //navigatetoHomeAdminActivity();
+                        Toast.makeText(getApplicationContext(), "Retrieving Customer Treatments!", Toast.LENGTH_LONG).show();
+                        JSONArray CustomerJson = obj.getJSONArray("results");
+                        // Navigate to Customer Records Screen
+                        //navigatetoSearchCustomerResultsActivity(CustomerJson);
 
                     }
                     // Else display error message
                     else{
-                        //errorMsg.setText(obj.getString("error_msg"));
-                        Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_LONG).show();
+                        errMsg.setText(obj.getString("message"));
+                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
-                    // TODO Auto-generated catch block
                     Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
 
@@ -145,7 +188,7 @@ public class MainMenuAdminActivity extends AppCompatActivity implements LoaderCa
                 }
             }
         };
-        CustomerConsentFormRestClient.post("superdrug/login/authenticatestaff",params ,responsehandler);
+        CustomerConsentFormRestClient.get("superdrug/customertreatments",params ,responsehandler);
     }
 
     /**
@@ -159,12 +202,12 @@ public class MainMenuAdminActivity extends AppCompatActivity implements LoaderCa
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mMainMenuAdminFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mMainMenuAdminFormView.animate().setDuration(shortAnimTime).alpha(
+            mSignatureFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mSignatureFormView.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mMainMenuAdminFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    mSignatureFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
 
@@ -180,7 +223,7 @@ public class MainMenuAdminActivity extends AppCompatActivity implements LoaderCa
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mMainMenuAdminFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mSignatureFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -217,9 +260,6 @@ public class MainMenuAdminActivity extends AppCompatActivity implements LoaderCa
 
     }
 
-
-
-
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
@@ -230,4 +270,3 @@ public class MainMenuAdminActivity extends AppCompatActivity implements LoaderCa
         int IS_PRIMARY = 1;
     }
 }
-

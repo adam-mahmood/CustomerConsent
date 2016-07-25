@@ -350,6 +350,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void navigatetoHomeActivity(Staff staff){
         Intent homeIntent = new Intent(getApplicationContext(),MainMenuAdminActivity.class);
         homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        homeIntent.putExtra("staff",staff);
         startActivity(homeIntent);
     }
     private boolean isEmailValid(String email) {

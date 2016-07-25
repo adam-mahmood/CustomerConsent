@@ -34,6 +34,9 @@
         <activity android:name=".activities.TreatmentsResultsActivity" android:label="@string/treatments">>
 
         </activity>
+        <activity android:name=".activities.SignatureAndAgreementActivity" android:label="@string/signature_and_agreement">>
+
+        </activity>
     </application>
 
 </manifest>

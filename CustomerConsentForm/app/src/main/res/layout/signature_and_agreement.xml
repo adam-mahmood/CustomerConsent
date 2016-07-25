@@ -16,14 +16,6 @@
         android:orientation="vertical"
         android:padding="5dip" >
 
-        <!-- View Title Label -->
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dip"
-            android:text="@string/search_for_customer"
-            android:textSize="25sp"
-            android:textStyle="bold" />
         <TextView
             android:id="@+id/signature_consent"
             android:layout_width="fill_parent"

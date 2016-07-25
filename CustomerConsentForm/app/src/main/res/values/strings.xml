@@ -27,6 +27,7 @@
     <!-- Strings related to Treatments -->
     <string name="treatments">Treatments</string>
 
+    <string name="signature_and_agreement">Signature And Agreement</string>
     <string name="signature_title">Customer Signature</string>
     <string name="signature_save_and_complete">Save And Complete</string>
 
