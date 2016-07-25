@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ProgressBar
+        android:id="@+id/signature_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+    <LinearLayout
+        android:id="@+id/signature_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dip" >
+
+        <!-- View Title Label -->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dip"
+            android:text="@string/search_for_customer"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/signature_consent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dip"
+            android:text="I have read and understand the consent form……….."
+            android:textSize="12sp"
+            android:textStyle="bold" />
+        <!-- Name Label -->
+        <TextView
+            android:id="@+id/signature_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dip"
+            android:text="@string/signature_title"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+        <com.github.gcacace.signaturepad.views.SignaturePad
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/signature_pad"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/border"
+            app:penColor="@android:color/black"
+            />
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/signature_therapist_name_label"
+                android:layout_width="wrap_content"
+                android:text="Therapist Name: "
+                android:layout_height="wrap_content" android:layout_alignParentLeft="true" />
+            <TextView
+                android:id="@+id/signature_therapist_name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_toRightOf="@+id/signature_therapist_name_label" />
+            <TextView
+                android:id="@+id/signature_date_text"
+                android:text="Test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_alignParentRight="true"  />
+            <TextView
+                android:id="@+id/signature_date_label"
+                android:layout_width="wrap_content"
+                android:text="Date: "
+                android:layout_height="wrap_content" android:layout_toLeftOf="@+id/signature_date_text" />
+            <Button
+                android:id="@+id/signature_save_and_complete"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/signature_save_and_complete"
+                android:layout_centerInParent="true"
+                android:textStyle="bold"
+                android:background="#ff6347"
+                android:textColor="#fff"
+                android:layout_below="@+id/signature_therapist_name_label"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

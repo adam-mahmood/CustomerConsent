@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ProgressBar
+        android:id="@+id/upload_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+    <LinearLayout
+        android:id="@+id/upload_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dip" >
+        <!-- View Title Label -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dip"
+            android:layout_gravity="center"
+            android:text="@string/upload"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+        <RelativeLayout
+            android:id="@+id/upload_customer_details_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/upload_therapist_name_label"
+                android:layout_width="wrap_content"
+                android:text="Therapist Name: "
+                android:layout_height="wrap_content" android:layout_alignParentLeft="true" />
+            <TextView
+                android:id="@+id/upload_therapist_name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_toRightOf="@+id/upload_therapist_name_label" />
+            <TextView
+                android:id="@+id/upload_date_text"
+                android:text="Test"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_alignParentRight="true"  />
+            <TextView
+                android:id="@+id/upload_date_label"
+                android:layout_width="wrap_content"
+                android:text="Date: "
+                android:layout_height="wrap_content" android:layout_toLeftOf="@+id/upload_date_text" />
+            <!-- Name Label -->
+            <TextView
+                android:id="@+id/upload_customer_name_label"
+                android:layout_width="wrap_content"
+                android:text="Customer Name: "
+                android:layout_below="@+id/upload_therapist_name_label"
+                android:layout_height="wrap_content" android:layout_alignParentLeft="true" />
+            <TextView
+                android:id="@+id/upload_customer_name_text"
+                android:text="Test"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/upload_therapist_name_label"
+                android:layout_height="wrap_content" android:layout_toRightOf="@+id/upload_customer_name_label" />
+            <TextView
+                android:id="@+id/upload_customer_id_text"
+                android:text="Test"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/upload_therapist_name_label"
+                android:layout_height="wrap_content" android:layout_alignParentRight="true"  />
+            <TextView
+                android:id="@+id/upload_customer_id_label"
+                android:layout_width="wrap_content"
+                android:text="Customer ID: "
+                android:layout_below="@+id/upload_therapist_name_label"
+                android:layout_height="wrap_content" android:layout_toLeftOf="@+id/upload_customer_id_text" />
+            <TextView
+                android:id="@+id/upload_customer_address_label"
+                android:layout_width="wrap_content"
+                android:text="Address: "
+                android:layout_below="@+id/upload_customer_id_text"
+                android:layout_height="wrap_content" android:layout_alignParentLeft="true" />
+            <TextView
+                android:id="@+id/upload_customer_address_text"
+                android:text="Test"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/upload_customer_id_text"
+                android:layout_height="wrap_content" android:layout_toRightOf="@+id/upload_customer_address_label" />
+            <TextView
+                android:id="@+id/upload_email_address_label"
+                android:layout_width="wrap_content"
+                android:text="Email Address: "
+                android:layout_below="@+id/upload_customer_address_text"
+                android:layout_height="wrap_content" android:layout_alignParentLeft="true" />
+            <TextView
+                android:id="@+id/upload_email_address_text"
+                android:text="Test"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/upload_customer_address_text"
+                android:layout_height="wrap_content" android:layout_toRightOf="@+id/upload_email_address_label" />
+            <TextView
+                android:id="@+id/upload_phone_number_label"
+                android:layout_width="wrap_content"
+                android:text="Phone Number: "
+                android:layout_below="@+id/upload_email_address_text"
+                android:layout_height="wrap_content" android:layout_alignParentLeft="true" />
+            <TextView
+                android:id="@+id/upload_phone_number_text"
+                android:layout_width="wrap_content"
+                android:text="Test"
+                android:layout_below="@+id/upload_email_address_text"
+                android:layout_height="wrap_content" android:layout_toRightOf="@+id/upload_phone_number_label" />
+            <TextView
+                android:id="@+id/upload_dob_text"
+                android:text="Test"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/upload_email_address_text"
+                android:layout_height="wrap_content" android:layout_alignParentRight="true"  />
+            <TextView
+                android:id="@+id/upload_dob_label"
+                android:layout_width="wrap_content"
+                android:text="DOB: "
+                android:layout_below="@+id/upload_email_address_text"
+                android:layout_height="wrap_content" android:layout_toLeftOf="@+id/upload_dob_text" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/upload_dob_text"></View>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/upload_treatments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000"
+                android:layout_marginTop="10dp"
+                ></View>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btn_upload"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/upload"
+                android:layout_centerInParent="true"
+                android:textStyle="bold"
+                android:background="#ff6347"
+                android:textColor="#fff"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

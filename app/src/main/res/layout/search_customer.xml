@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical" android:layout_width="match_parent"
+android:layout_height="match_parent">
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+        <ScrollView
+            android:id="@+id/search_customer_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/search_customer_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="5dip" >
+
+                <!-- View Title Label -->
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dip"
+                    android:text="@string/search_for_customer"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <!-- Name Label -->
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/customer_id" />
+                <!-- Name TextField -->
+
+                <EditText
+                    android:id="@+id/customer_id"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" android:hint="Enter your Customer ID" />
+                <!-- Name Label -->
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/forename" />
+                <!-- Name TextField -->
+
+                <EditText
+                    android:id="@+id/register_forename"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" android:hint="Enter your Forename" />
+                <!-- Name Label -->
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/surname" />
+                <!-- Name TextField -->
+
+                <EditText
+                    android:id="@+id/register_surname"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" android:hint="Enter your Surename"/>
+                <!-- Email Label -->
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email" />
+                <!-- Email TextField -->
+
+                <EditText
+                    android:id="@+id/register_email"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter your Email ID"
+                    android:inputType="textEmailAddress" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact_number"/>
+                <!-- Phone TextField -->
+
+                <EditText
+                    android:id="@+id/register_contact_number"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter your Phone number"
+                    android:inputType="phone" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dob"/>
+                <!-- DOB TextField -->
+
+                <EditText
+                    android:id="@+id/register_dob"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter your D.O.B"
+                    android:inputType="date" />
+
+
+                <!-- DOB TextField -->
+        <!--        &lt;!&ndash; Password Label &ndash;&gt;
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dip"
+                    android:text="@string/prompt_password" />
+                &lt;!&ndash; Password TextField &ndash;&gt;
+
+                <EditText
+                    android:id="@+id/registerPassword"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Password"
+                    android:inputType="textPassword" />-->
+
+                <!-- Error message -->
+
+                <TextView
+                    android:id="@+id/search_error"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="10dip"
+                    android:textColor="#e30000"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnSearch"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dip"
+                    android:background="#ff6347"
+                    android:onClick="searchCustomer"
+                    android:text="@string/search_for_customer"
+                    android:textColor="#fff" />
+
+                <!-- Link to Login Screen -->
+
+        <!--        <Button
+                    android:id="@+id/btnLinkToLoginScreen"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dip"
+                    android:background="@null"
+                    android:onClick="navigatetoLoginActivity"
+                    android:text="Login"
+                    android:textColor="#228b22"
+                    android:textStyle="bold" />-->
+            </LinearLayout>
+        </ScrollView>
+</LinearLayout>
+

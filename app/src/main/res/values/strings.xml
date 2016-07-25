@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Customer Consent Form</string>
+    <string name="main_menu_admin">Main Menu (Administrator)</string>
+    <string name="search_customer">Search For Customer)</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password2">Password</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <!-- Strings related to Customer -->
+    <string name="search_for_customer">Search For Customer</string>
+    <string name="customer_id">Customer ID</string>
+    <string name="forename">Forename</string>
+    <string name="surname">Surname</string>
+    <string name="email">Email</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="dob">DOB</string>
+
+    <!-- Strings related to Treatments -->
+    <string name="treatments">Treatments</string>
+
+    <string name="signature_title">Customer Signature</string>
+    <string name="signature_save_and_complete">Save And Complete</string>
+
+    <string name="activity_next">Next</string>
+
+    <string name="upload">Upload</string>
+
+</resources>

@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".activities.MainMenuAdminActivity"
+    android:background="@drawable/background2">
+
+    <!-- Login progress -->
+
+    <ProgressBar
+        android:id="@+id/main_menu_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"/>
+
+    <ScrollView
+        android:id="@+id/main_menu_form_view"
+        android:layout_width="match_parent"
+        android:layout_height="505dp">
+
+        <LinearLayout
+            android:id="@+id/main_menu_form_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:baselineAligned="false"
+            android:paddingTop="80dp">
+
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/image_button_search"
+                android:src="@drawable/search"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:background="#00ffffff" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/image_button_create_new_customer"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/newmember"
+                android:layout_marginRight="0dp"
+                android:layout_margin="0dp"
+                android:scaleType="fitCenter"
+                android:background="#00ffffff" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/image_button_manage_accounts"
+                android:src="@drawable/button"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:background="#00ffffff" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/image_button_sign_out"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/logout"
+                android:layout_marginRight="0dp"
+                android:layout_margin="0dp"
+                android:scaleType="fitCenter"
+                android:visibility="visible"
+                android:background="#00ffffff" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
