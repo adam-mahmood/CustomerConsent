@@ -225,6 +225,7 @@ public class SearchCustomerActivity extends AppCompatActivity implements LoaderM
         searchCustomerResultsIntent.putExtra("customerRecords",customerJson.toString());
         searchCustomerResultsIntent.putExtra("searchForQuery", searcForQuery);
         searchCustomerResultsIntent.putExtra("Staff_Name",staffIntent.getStringExtra("Staff_Name"));
+        searchCustomerResultsIntent.putExtra("staff",staffIntent.getExtras().getParcelableArray("staff"));
         startActivity(searchCustomerResultsIntent);
     }
 

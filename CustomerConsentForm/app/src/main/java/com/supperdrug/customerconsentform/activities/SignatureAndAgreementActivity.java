@@ -8,6 +8,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,9 +56,12 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
     private boolean isSigned;
 
     private String staffName;
+
+    private Bitmap signature;
     // UI references.
 
     private Button saveAndComplete;
+    private Button clearSignature;
     private SignaturePad signaturePad;
     private TextView therapistName;
     private TextView date;
@@ -80,7 +84,6 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
             public void onStartSigning() {
 
             }
-
             @Override
             public void onSigned() {
                 isSigned = true;
@@ -91,6 +94,7 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
                 isSigned =false;
             }
         });
+
         saveAndComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,19 +111,27 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
     private void navigateToUploadActivity() {
         Intent uploadIntent = new Intent(getApplicationContext(),SignatureAndAgreementActivity.class);
         uploadIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        uploadIntent.putExtra("Staff_Name",staffName);
+        uploadIntent.putExtra("staff",intent.getExtras().getParcelable("staff"));
+        uploadIntent.putExtra("customer",intent.getExtras().getParcelable("customer"));
+        uploadIntent.putExtra("selectedTreatments",intent.getStringArrayListExtra("selectedTreatments"));
         startActivity(uploadIntent);
     }
 
 
     private void findViewsById() {
         signaturePad = (SignaturePad) findViewById(R.id.signature_pad) ;
+
         saveAndComplete = (Button) findViewById(R.id.signature_save_and_complete);
+
+        clearSignature = (Button) findViewById(R.id.signature_clear);
+
         therapistName = (TextView)findViewById(R.id.signature_therapist_name_text) ;
         therapistName.setText(staffName);
+
         date = (TextView)findViewById(R.id.signature_date_text) ;
         DateFormat df = new SimpleDateFormat("dd/MM/yy");
         date.setText(df.format(new Date()));
+
         mSignatureFormView = findViewById(R.id.signature_view);
         mProgressView = findViewById(R.id.signature_progress);
     }

@@ -30,7 +30,7 @@
     <string name="signature_and_agreement">Signature And Agreement</string>
     <string name="signature_title">Customer Signature</string>
     <string name="signature_save_and_complete">Save And Complete</string>
-
+    <string name="signature_clear">Clear Signature</string>
     <string name="activity_next">Next</string>
 
     <string name="upload">Upload</string>

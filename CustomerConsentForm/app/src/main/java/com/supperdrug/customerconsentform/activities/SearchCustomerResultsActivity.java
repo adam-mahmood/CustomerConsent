@@ -48,6 +48,8 @@ public class SearchCustomerResultsActivity extends AppCompatActivity implements 
 
     private Intent searchCustomerResultsIntent;
 
+    private Customer cus;
+
     private JSONArray customerRecordsJsonArray;
     // UI references.
 
@@ -82,7 +84,7 @@ public class SearchCustomerResultsActivity extends AppCompatActivity implements 
         customerRecords.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Customer cus =(Customer) parent.getItemAtPosition(position);
+                cus =(Customer) parent.getItemAtPosition(position);
                 //Toast.makeText(getBaseContext(), cus.toString(), Toast.LENGTH_LONG).show();
                 getCustomerTreatments(cus);
             }
@@ -111,6 +113,8 @@ public class SearchCustomerResultsActivity extends AppCompatActivity implements 
         treatmentsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         treatmentsIntent.putExtra("customerTreatments",customerJson.toString());
         treatmentsIntent.putExtra("Staff_Name",searchCustomerResultsIntent.getStringExtra("Staff_Name"));
+        treatmentsIntent.putExtra("staff",searchCustomerResultsIntent.getExtras().getParcelable("staff"));
+        treatmentsIntent.putExtra("customer",cus);
         startActivity(treatmentsIntent);
     }
 

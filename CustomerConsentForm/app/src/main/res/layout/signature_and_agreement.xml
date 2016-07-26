@@ -42,6 +42,7 @@
             android:background="@drawable/border"
             app:penColor="@android:color/black"
             />
+
         <RelativeLayout
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
@@ -73,7 +74,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/signature_save_and_complete"
-                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:textStyle="bold"
+                android:background="#ff6347"
+                android:textColor="#fff"
+                android:layout_below="@+id/signature_therapist_name_label"/>
+            <Button
+                android:id="@+id/signature_clear"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/signature_clear"
+                android:layout_alignParentLeft="true"
                 android:textStyle="bold"
                 android:background="#ff6347"
                 android:textColor="#fff"

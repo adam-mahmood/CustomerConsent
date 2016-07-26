@@ -79,6 +79,7 @@ public class MainMenuAdminActivity extends AppCompatActivity implements LoaderCa
         Intent searchCustomerIntent = new Intent(getApplicationContext(),SearchCustomerActivity.class);
         searchCustomerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         searchCustomerIntent.putExtra("Staff_Name",staff.getForename() + " " + staff.getSurname());
+        searchCustomerIntent.putExtra("Staff",staff);
         startActivity(searchCustomerIntent);
     }
 

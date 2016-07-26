@@ -125,7 +125,8 @@ public class TreatmentsResultsActivity extends AppCompatActivity implements Load
         b.putStringArrayList("selectedTreatments", selectedTreatments);
         signatureIntent.putExtras(b);
         signatureIntent.putExtra("Staff_Name",treatmentsIntent.getStringExtra("Staff_Name"));
-        System.out.println("Hello2");
+        signatureIntent.putExtra("staff",treatmentsIntent.getExtras().getParcelable("staff"));
+        signatureIntent.putExtra("customer",treatmentsIntent.getExtras().getParcelable("customer"));
         startActivity(signatureIntent);
     }
 
