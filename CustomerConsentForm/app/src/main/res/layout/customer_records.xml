@@ -23,15 +23,118 @@ android:layout_height="match_parent">
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
             android:text="@string/search_for_customer"
-            android:textSize="25sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
+        <RelativeLayout
+            android:id="@+id/customer_records_layout_search_query"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/search_query_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_query"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_alignParentLeft="true"/>
+            <TextView android:id="@+id/customer_records_forename_label"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@+id/search_query_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="10dp"
+                android:textStyle="italic"
+                android:text="@string/forename"/>
+            <TextView
+                android:id="@+id/customer_records_forename_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_below="@+id/search_query_label"
+                android:layout_toRightOf="@+id/customer_records_forename_label"
+                android:focusableInTouchMode="false"
+                android:text="Test"/>
+            <TextView android:id="@+id/customer_records_surname_label"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:textStyle="italic"
+                android:text="@string/surname"
+                android:layout_below="@+id/search_query_label"
+                android:layout_toRightOf="@+id/customer_records_forename_text"/>
+            <TextView
+                android:id="@+id/customer_records_surname_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/search_query_label"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/customer_records_surname_label"
+                android:text="Test"/>
+            <TextView android:id="@+id/customer_records_id_label"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_below="@+id/search_query_label"
+                android:layout_toRightOf="@+id/customer_records_surname_text"
+                android:textStyle="italic"
+                android:text="@string/customer_id"/>
+            <TextView
+                android:id="@+id/customer_records_id_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/search_query_label"
+                android:layout_toRightOf="@+id/customer_records_id_label"
+                android:text="Test"/>
+            <TextView android:id="@+id/customer_records_email_address_label"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:textStyle="italic"
+                android:layout_below="@+id/customer_records_id_text"
+                android:layout_alignParentLeft="true"
+                android:text="@string/email_address"/>
+            <TextView
+                android:id="@+id/customer_records_email_address_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/customer_records_id_text"
+                android:layout_toRightOf="@+id/customer_records_email_address_label"
+                android:text="Test"/>
+            <TextView android:id="@+id/customer_records_dob_label"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:textStyle="italic"
+                android:layout_below="@+id/customer_records_email_address_label"
+                android:text="@string/dob"/>
+            <TextView
+                android:id="@+id/customer_records_dob_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/customer_records_email_address_label"
+                android:layout_toRightOf="@+id/customer_records_dob_label"
+                android:text="Test"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/customer_records_dob_text"></View>
+        </RelativeLayout>
         <TextView
-            android:id="@+id/search_query"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:text="Results:"/>
         <!-- Name Label -->
         <ListView
             android:id="@+id/customer_records_list_view"

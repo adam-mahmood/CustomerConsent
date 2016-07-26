@@ -26,6 +26,7 @@ import com.supperdrug.customerconsentform.R;
 import com.supperdrug.customerconsentform.adapters.CustomerAdapter;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
 import com.supperdrug.customerconsentform.models.Customer;
+import com.supperdrug.customerconsentform.models.SearchQuery;
 import com.supperdrug.customerconsentform.utilities.Utility;
 
 import org.json.JSONArray;
@@ -53,7 +54,14 @@ public class SearchCustomerResultsActivity extends AppCompatActivity implements 
     private JSONArray customerRecordsJsonArray;
     // UI references.
 
-    private  TextView searchQuery;
+    private TextView forename;
+    private TextView suraname;
+    private TextView dob;
+    private TextView email_address;
+    private TextView contactNumber;
+    private TextView id;
+
+
     private ListView customerRecords;
     private View mProgressView;
     private View mSearchCustomerFormView;
@@ -120,9 +128,17 @@ public class SearchCustomerResultsActivity extends AppCompatActivity implements 
 
 
     private void findViewsById() {
-
-        searchQuery = (TextView)findViewById(R.id.search_query) ;
-        searchQuery.setText(searchCustomerResultsIntent.getStringExtra("searchForQuery"));
+        SearchQuery query = searchCustomerResultsIntent.getExtras().getParcelable("searchForQuery");
+        forename = (TextView)findViewById(R.id.customer_records_forename_text) ;
+        forename.setText(query.getForename());
+        suraname = (TextView)findViewById(R.id.customer_records_surname_text) ;
+        suraname.setText(query.getSurname());
+        email_address = (TextView)findViewById(R.id.customer_records_email_address_text);
+        email_address.setText(query.getEmail());
+        id = (TextView)findViewById(R.id.customer_records_id_text);
+        id.setText(query.getId());
+        dob = (TextView)findViewById(R.id.customer_records_dob_text) ;
+        dob.setText(query.getDob());
         customerRecords = (ListView)findViewById(R.id.customer_records_list_view) ;
         mSearchCustomerFormView = findViewById(R.id.customer_records_view);
         mProgressView = findViewById(R.id.customer_records_progress);

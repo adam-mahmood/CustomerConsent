@@ -22,6 +22,7 @@
     <string name="forename">Forename</string>
     <string name="surname">Surname</string>
     <string name="email">Email</string>
+    <string name="email_address">Email Address</string>
     <string name="contact_number">Contact Number</string>
     <string name="dob">DOB</string>
     <string name="address">Address</string>
@@ -30,6 +31,7 @@
     <string name="gender">Gender</string>
     <string name="post_code">Post Code</string>
     <string name="registration_date">Registration Date </string>
+
 
     <!-- Strings related to Treatments -->
     <string name="treatments">Treatments</string>
@@ -41,5 +43,7 @@
     <string name="activity_next">Next</string>
 
     <string name="upload">Upload</string>
+    <string name="search_query">Search Query:</string>
+    <string name="address">Address</string>
 
 </resources>
