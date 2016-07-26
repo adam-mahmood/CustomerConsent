@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_customer"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dip" >
+
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/forename" />
+
+            <EditText
+                android:id="@+id/create_forename"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your Forename"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/surname" />
+
+            <EditText
+                android:id="@+id/create_surname"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your Surename"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/email" />
+
+            <EditText
+                android:id="@+id/create_email"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your Email ID"
+                android:inputType="textEmailAddress" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/contact_number" />
+
+            <EditText
+                android:id="@+id/create__phone_number"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your Phone number"
+                android:inputType="phone" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dob" />
+
+            <EditText
+                android:id="@+id/create_dob"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your D.O.B"
+                android:inputType="date" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/address" />
+
+            <EditText
+                android:id="@+id/create_address"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your Address"
+                android:inputType="text|date" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/city" />
+
+            <EditText
+                android:id="@+id/create_city"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your City"
+                android:inputType="text|date" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/county" />
+
+            <EditText
+                android:id="@+id/create_county"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your County"
+                android:inputType="text|date" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/post_code" />
+
+            <EditText
+                android:id="@+id/create_registration_date"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your Post Code"
+                android:inputType="text|date" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/registration_date" />
+
+            <EditText
+                android:id="@+id/create_post_code"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your Post Code"
+                android:inputType="date" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gender" />
+            <RadioGroup
+                android:id="@+id/radioGrp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioM"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+
+                    android:layout_weight="1"
+                    android:textSize="14dp"
+                    android:text="Male"
+                    />
+                <RadioButton
+                    android:id="@+id/radioF"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+
+                    android:layout_weight="1"
+                    android:textSize="14dp"
+                    android:text="Female"
+                    />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dip"
+                android:textColor="#e30000"
+                android:textStyle="bold" />
+
+
+            <Button
+                android:id="@+id/create_button_save"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:background="#ff6347"
+                android:onClick="searchCustomer"
+                android:text="@string/create_customer"
+                android:textColor="#fff" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -17,12 +17,19 @@
     </string>
     <!-- Strings related to Customer -->
     <string name="search_for_customer">Search For Customer</string>
+    <string name="create_customer">Create Customer</string>
     <string name="customer_id">Customer ID</string>
     <string name="forename">Forename</string>
     <string name="surname">Surname</string>
     <string name="email">Email</string>
     <string name="contact_number">Contact Number</string>
     <string name="dob">DOB</string>
+    <string name="address">Address</string>
+    <string name="city">City</string>
+    <string name="county">County</string>
+    <string name="gender">Gender</string>
+    <string name="post_code">Post Code</string>
+    <string name="registration_date">Registration Date </string>
 
     <!-- Strings related to Treatments -->
     <string name="treatments">Treatments</string>

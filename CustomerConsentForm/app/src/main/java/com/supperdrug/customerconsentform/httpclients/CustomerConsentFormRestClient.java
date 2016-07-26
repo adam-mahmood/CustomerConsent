@@ -8,7 +8,7 @@ import com.loopj.android.http.RequestParams;
  * Created by adam on 18/07/2016.
  */
 public class CustomerConsentFormRestClient {
-    private static final String BASE_URL = "http://192.168.0.4:5000/api/v1.0/";
+    private static final String BASE_URL = "http://86.27.141.14:5000/api/v1.0/";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
