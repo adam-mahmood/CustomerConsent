@@ -9,10 +9,12 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CheckedTextView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -61,7 +63,9 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
     private TextView address;
     private RelativeLayout layoutTreatments;
     private CheckedTextView checkedText;
-
+    private TextView treatmentsLabel;
+    private RelativeLayout layoutSignature;
+    private ImageView signatureView;
     private View mProgressView;
     private View mUploadFormView;
 
@@ -112,17 +116,41 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         address = (TextView) findViewById(R.id.upload_customer_address_text);
         address.setText(cus.getAddress() + "," + cus.getCity() + "," + cus.getCountry());
 
+        treatmentsLabel = (TextView)findViewById(R.id.upload_treatments_label) ;
+
         layoutTreatments = (RelativeLayout)findViewById(R.id.upload_treatments);
         RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
-        layout.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        layout.addRule(RelativeLayout.ALIGN_PARENT_LEFT,RelativeLayout.TRUE);
+        layout.addRule(RelativeLayout.BELOW,R.id.upload_treatments_label);
+        layout.setMargins(30,0,0,0);
+        TypedValue value = new TypedValue();
+        getTheme().resolveAttribute(android.R.attr.listChoiceIndicatorMultiple, value, true);
+        int checkMarkDrawableResId = value.resourceId;
+
         for (int i = 0;i < selectedTreatments.size();i++){
+            if (i >0){
+                layout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+                layout.addRule(RelativeLayout.RIGHT_OF,i);
+                layout.addRule(RelativeLayout.BELOW,R.id.upload_treatments_label);
+                layout.setMargins(30,0,0,0);
+                if (i>=4){
+                    layout.addRule(RelativeLayout.BELOW,1);
+                    layout.addRule(RelativeLayout.ALIGN_PARENT_LEFT,RelativeLayout.TRUE);
+                }
+            }
             checkedText = new CheckedTextView(this);
             checkedText.setText(selectedTreatments.get(i));
-            checkedText.setId(i);
+            checkedText.setId(i+1);
             checkedText.setLayoutParams(layout);
             checkedText.setClickable(false);
+            checkedText.setChecked(true);
+            checkedText.setCheckMarkDrawable(checkMarkDrawableResId);
             layoutTreatments.addView(checkedText);
         }
+        layoutSignature = (RelativeLayout) findViewById(R.id.upload_signature_layout);
+        signatureView = (ImageView)findViewById(R.id.upload_signature_bitmap);
+        signatureView.setImageBitmap(decodeByteArray());
+
     }
 
 

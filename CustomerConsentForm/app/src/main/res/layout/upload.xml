@@ -24,9 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
-            android:layout_gravity="center"
+            android:layout_gravity="left"
             android:text="@string/upload"
-            android:textSize="25sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
         <RelativeLayout
             android:id="@+id/upload_customer_details_view"
@@ -36,27 +36,33 @@
                 android:id="@+id/upload_therapist_name_label"
                 android:layout_width="wrap_content"
                 android:text="Therapist Name: "
+                android:layout_marginLeft="30px"
+                android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content" android:layout_alignParentLeft="true" />
             <TextView
                 android:id="@+id/upload_therapist_name_text"
                 android:layout_width="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:layout_height="wrap_content" android:layout_toRightOf="@+id/upload_therapist_name_label" />
             <TextView
                 android:id="@+id/upload_date_text"
                 android:text="Test"
                 android:layout_marginRight="20dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:layout_alignParentRight="true"  />
             <TextView
                 android:id="@+id/upload_date_label"
                 android:layout_width="wrap_content"
                 android:text="Date: "
+                android:layout_marginBottom="5dp"
                 android:layout_height="wrap_content" android:layout_toLeftOf="@+id/upload_date_text" />
             <!-- Name Label -->
             <TextView
                 android:id="@+id/upload_customer_name_label"
                 android:layout_width="wrap_content"
                 android:text="Customer Name: "
+                android:layout_marginLeft="30px"
                 android:layout_below="@+id/upload_therapist_name_label"
                 android:layout_height="wrap_content" android:layout_alignParentLeft="true" />
             <TextView
@@ -82,6 +88,7 @@
                 android:id="@+id/upload_customer_address_label"
                 android:layout_width="wrap_content"
                 android:text="Address: "
+                android:layout_marginLeft="30px"
                 android:layout_below="@+id/upload_customer_id_text"
                 android:layout_height="wrap_content" android:layout_alignParentLeft="true" />
             <TextView
@@ -94,6 +101,7 @@
                 android:id="@+id/upload_email_address_label"
                 android:layout_width="wrap_content"
                 android:text="Email Address: "
+                android:layout_marginLeft="30px"
                 android:layout_below="@+id/upload_customer_address_text"
                 android:layout_height="wrap_content" android:layout_alignParentLeft="true" />
             <TextView
@@ -106,6 +114,7 @@
                 android:id="@+id/upload_phone_number_label"
                 android:layout_width="wrap_content"
                 android:text="Phone Number: "
+                android:layout_marginLeft="30px"
                 android:layout_below="@+id/upload_email_address_text"
                 android:layout_height="wrap_content" android:layout_alignParentLeft="true" />
             <TextView
@@ -139,35 +148,66 @@
             android:id="@+id/upload_treatments"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
+        <TextView
+            android:id="@+id/upload_treatments_label"
+            android:layout_alignParentTop="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="Treatments"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
 
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/upload_signature_layout"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <View
+                android:id="@+id/upload_seperator"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_alignParentTop="true"
                 android:background="#000000"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 ></View>
-            <Button
-                android:id="@+id/btn_upload"
-                android:layout_marginTop="10dp"
+            <TextView
+                android:id="@+id/upload_customer_signature_label"
+                android:layout_below="@+id/upload_seperator"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/upload"
-                android:layout_centerInParent="true"
-                android:textStyle="bold"
-                android:background="#ff6347"
-                android:textColor="#fff"
-                />
+                android:text="Customer Signature"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+            <ImageView
+                android:id="@+id/upload_signature_bitmap"
+                android:layout_below="@+id/upload_customer_signature_label"
+                android:padding="1dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"/>
+
         </RelativeLayout>
+        <Button
+            android:id="@+id/btn_upload"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/upload"
+            android:layout_centerInParent="true"
+            android:textStyle="bold"
+            android:background="#ff6347"
+            android:textColor="#fff"
+            />
 
     </LinearLayout>
 </ScrollView>
