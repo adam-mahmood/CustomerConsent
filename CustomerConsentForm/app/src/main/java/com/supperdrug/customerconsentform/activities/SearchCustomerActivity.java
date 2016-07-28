@@ -148,6 +148,8 @@ public class SearchCustomerActivity extends AppCompatActivity implements LoaderM
                 }else{
                     Toast.makeText(getApplicationContext(), "Please enter valid email", Toast.LENGTH_LONG).show();
                 }
+            }else if( Utility.isNotNull(id) || Utility.isNotNull(forname) || Utility.isNotNull(surname) || Utility.isNotNull(dob) || Utility.isNotNull(number)){
+                invokeWS(params);
             }
         }
     }
@@ -172,13 +174,12 @@ public class SearchCustomerActivity extends AppCompatActivity implements LoaderM
                 try {
                     // JSON Object
                     JSONObject obj = new JSONObject(response);
-                    System.out.println(response);
                     // When the JSON response has status boolean value assigned with true
                     if(obj.getInt("status") == 200){
                         Log.i(TAG,"Invoking Web Services Success!");
                         Toast.makeText(getApplicationContext(), "Customer Records Found!", Toast.LENGTH_LONG).show();
                         JSONArray CustomerJson = obj.getJSONArray("result");
-
+                        System.out.println(CustomerJson);
                         // Navigate to Customer Records Screen
                         navigatetoSearchCustomerResultsActivity(CustomerJson);
 
@@ -226,7 +227,7 @@ public class SearchCustomerActivity extends AppCompatActivity implements LoaderM
         searchCustomerResultsIntent.putExtra("customerRecords",customerJson.toString());
         searchCustomerResultsIntent.putExtra("searchForQuery", searcForQuery);
         searchCustomerResultsIntent.putExtra("Staff_Name",staffIntent.getStringExtra("Staff_Name"));
-        searchCustomerResultsIntent.putExtra("staff",staffIntent.getExtras().getParcelableArray("staff"));
+        searchCustomerResultsIntent.putExtra("staff",staffIntent.getExtras().getParcelable("staff"));
         startActivity(searchCustomerResultsIntent);
     }
 

@@ -38,6 +38,9 @@
         <activity android:name=".activities.SignatureAndAgreementActivity" android:label="@string/signature_and_agreement">>
 
         </activity>
+        <activity android:name=".activities.UploadActivity" android:label="@string/upload">>
+
+        </activity>
     </application>
 
 </manifest>
