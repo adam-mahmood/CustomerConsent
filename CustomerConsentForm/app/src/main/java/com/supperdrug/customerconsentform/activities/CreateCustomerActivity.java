@@ -7,7 +7,6 @@ import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +19,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -33,7 +31,6 @@ import com.supperdrug.customerconsentform.utilities.Utility;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 /**
  * Created by Waseem on 26/07/2016.
@@ -48,6 +45,8 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
 
     private Button addCustomerBut;
 
+    private Customer customer;
+
     private View mProgressView;
 ;   private View mFormView;
 
@@ -60,6 +59,7 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
     private EditText city;
     private EditText country;
     private EditText registrationDate;
+    private EditText address;
     private RadioGroup gender;
     private TextView errMsg;
     /**
@@ -93,6 +93,8 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
         country = (EditText) findViewById(R.id.create_country);
         registrationDate = (EditText) findViewById(R.id.create_registration_date);
         contactNumber = (EditText) findViewById(R.id.create__phone_number);
+        address = (EditText) findViewById(R.id.create_address);
+
         gender = (RadioGroup) findViewById(R.id.radioGrp);
         errMsg = (TextView) findViewById(R.id.search_error);
         mProgressView = findViewById(R.id.progressBar);
@@ -134,23 +136,25 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
         String _country = country.getText().toString();
         String _regiDate = registrationDate.getText().toString();
         String _postCode =  postCode.getText().toString();
+        String _address =  address.getText().toString();
         //searcForQuery = String.format("Search Query:\n Forename = %s \t\t\t\t\t\t\t\t\t\t\t\t Surname = %s \t\t\t\t\t\t\t\t\t Customer ID = %s \n Email Address = %s \n DOB = %s \t\t\t\t\t\t\t\t\t\t\t\t\t\t Phone Number = %s",forname,surname,id,email,dob,number);
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
 
         if (!Utility.isNotNull(_email) &&  !Utility.isNotNull(_forename) && !Utility.isNotNull(_surname) && !Utility.isNotNull(_dob) && !Utility.isNotNull(_number)&& !Utility.isNotNull(_postCode)&& !Utility.isNotNull(_city)&& !Utility.isNotNull(_country)
-                && !Utility.isNotNull(_regiDate) ){
+                && !Utility.isNotNull(_regiDate) && !Utility.isNotNull(_address) ){
             Toast.makeText(getApplicationContext(), "please fill in required text field", Toast.LENGTH_LONG).show();
         }else {
             params.add("email_address",_email);
             params.add("surname",_surname);
-            params.add("forname",_forename);
+            params.add("forename",_forename);
             params.add("contact_number",_number);
-            params.add("date_of_birth",_dob);
+            params.add("dob",_dob);
             params.add("post_code", _postCode);
             params.add("city",_city);
             params.add("country",_country);
             params.add("registration_date",_regiDate);
+            params.add("address", _address);
             params.add("gender", genderStr);
 
             if (Utility.isNotNull(_email)){
@@ -191,6 +195,7 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
                         Log.i(TAG,"Invoking Web Services Success!");
                         Toast.makeText(getApplicationContext(), "Customer Records Found!", Toast.LENGTH_LONG).show();
                         JSONArray CustomerJson = obj.getJSONArray("result");
+                        customer = new Customer(CustomerJson);
 
                         // Navigate to Customer Records Screen
                         navigatetActivity(CustomerJson);
@@ -233,7 +238,13 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
         CustomerConsentFormRestClient.post("superdrug/createcustomer",params ,responsehandler);
     }
 
-    private void navigatetActivity(JSONArray customerJson) {
+    private void navigatetActivity(JSONArray customerJson)
+    {
+        Intent treatmentIntent = new Intent(getApplicationContext(),TreatmentsResultsActivity.class);
+        treatmentIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        treatmentIntent.putExtra("customer",customer);
+        // createCustomerIntent.putExtra("Staff",staff);
+        startActivity(treatmentIntent);
     }
 
     /**
