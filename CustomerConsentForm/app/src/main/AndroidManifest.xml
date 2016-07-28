@@ -26,6 +26,12 @@
         <activity android:name=".activities.MainMenuAdminActivity" android:label="@string/main_menu_admin">>
 
         </activity>
+        <activity android:name=".activities.CreateCustomerActivity" android:label="@string/create_customer">>
+
+        </activity>
+        <activity android:name=".activities.CreateStaffActivity" android:label="@string/create_staff">>
+
+        </activity>
         <activity android:name=".activities.SearchCustomerActivity" android:label="@string/search_customer">>
 
         </activity>
@@ -37,7 +43,11 @@
         </activity>
         <activity android:name=".activities.SignatureAndAgreementActivity" android:label="@string/signature_and_agreement">>
 
-        </activity>
+        </activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

@@ -287,7 +287,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     JSONObject obj = new JSONObject(response);
 
                     // When the JSON response has status boolean value assigned with true
-                    if(obj.getInt("status") == 200){
+                    if(obj.getInt("status") == 200)
+                    {
                         Log.i(TAG,"Invoking Web Services Success!");
                         Log.i(TAG,"You are successfully logged in!");
                         Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_LONG).show();
@@ -302,11 +303,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         }
                     }
                     // Else display error message
-                    else{
+                    else
+                    {
                         errorMsg.setText(obj.getString("message"));
                         Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
+                } catch (JSONException e)
+                {
                     Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
 

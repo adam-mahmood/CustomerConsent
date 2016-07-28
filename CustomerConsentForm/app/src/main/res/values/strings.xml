@@ -5,7 +5,7 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password2">Password</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password </string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -26,11 +26,14 @@
     <string name="dob">DOB</string>
     <string name="address">Address</string>
     <string name="city">City</string>
-    <string name="county">County</string>
+    <string name="county">Country</string>
     <string name="gender">Gender</string>
     <string name="post_code">Post Code</string>
     <string name="registration_date">Registration Date </string>
 
+    <!-- Strings related to Staff -->
+    <string name="create_staff">Create Staff</string>
+    <string name="retype_password">Retype Password </string>
     <!-- Strings related to Treatments -->
     <string name="treatments">Treatments</string>
 

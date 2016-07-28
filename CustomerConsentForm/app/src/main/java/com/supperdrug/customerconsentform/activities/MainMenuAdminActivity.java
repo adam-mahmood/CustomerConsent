@@ -68,9 +68,26 @@ public class MainMenuAdminActivity extends AppCompatActivity implements LoaderCa
             }
         });
         newCustomer = (ImageButton) findViewById(R.id.image_button_create_new_customer);
+        newCustomer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        navigateToCreateCustomerView(view);
+            }
+        });
         manageAccounts = (ImageButton) findViewById(R.id.image_button_manage_accounts);
+        manageAccounts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateToCreateStaffView(view);
+            }
+        });
         signOut = (ImageButton) findViewById(R.id.image_button_sign_out);
-
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateToLogoutView(view);
+            }
+        });
         mMainMenuAdminFormView = findViewById(R.id.main_menu_form_view);
         mProgressView = findViewById(R.id.login_progress);
     }
@@ -83,6 +100,24 @@ public class MainMenuAdminActivity extends AppCompatActivity implements LoaderCa
         startActivity(searchCustomerIntent);
     }
 
+    private void navigateToCreateCustomerView(View view) {
+        Intent createCustomerIntent = new Intent(getApplicationContext(),CreateCustomerActivity.class);
+        createCustomerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+       // createCustomerIntent.putExtra("Staff",staff);
+        startActivity(createCustomerIntent);
+    }
+    private void navigateToCreateStaffView(View view) {
+        Intent createCustomerIntent = new Intent(getApplicationContext(),CreateStaffActivity.class);
+        createCustomerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        // createCustomerIntent.putExtra("Staff",staff);
+        startActivity(createCustomerIntent);
+    }
+    private void navigateToLogoutView(View view) {
+        Intent createCustomerIntent = new Intent(getApplicationContext(),LoginActivity.class);
+        createCustomerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        // createCustomerIntent.putExtra("Staff",staff);
+        startActivity(createCustomerIntent);
+    }
     /**
      * Method that performs RESTful webservice invocations
      *

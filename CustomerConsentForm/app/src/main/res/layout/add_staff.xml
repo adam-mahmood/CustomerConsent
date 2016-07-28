@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1">
-
+    android:layout_height="match_parent">
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
-        android:id="@+id/progressBar"
+        android:id="@+id/staff_progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
     <ScrollView
-        android:id="@+id/create_customer_view"
+        android:id="@+id/create_staff_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -28,7 +26,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/create_customer"
+                android:text="@string/create_staff"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
@@ -38,7 +36,7 @@
                 android:text="@string/forename" />
 
             <EditText
-                android:id="@+id/create_forename"
+                android:id="@+id/create_staff_forename"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your Forename"
@@ -50,7 +48,7 @@
                 android:text="@string/surname" />
 
             <EditText
-                android:id="@+id/create_surname"
+                android:id="@+id/create_staff_surname"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your Surename"
@@ -62,7 +60,7 @@
                 android:text="@string/email" />
 
             <EditText
-                android:id="@+id/create_email"
+                android:id="@+id/create_staff_email"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your Email ID"
@@ -74,7 +72,7 @@
                 android:text="@string/contact_number" />
 
             <EditText
-                android:id="@+id/create__phone_number"
+                android:id="@+id/create_staff_phone_number"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your Phone number"
@@ -86,7 +84,7 @@
                 android:text="@string/dob" />
 
             <EditText
-                android:id="@+id/create_dob"
+                android:id="@+id/create_staff_dob"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your D.O.B"
@@ -97,7 +95,7 @@
                 android:text="@string/address" />
 
             <EditText
-                android:id="@+id/create_address"
+                android:id="@+id/create_staff_address"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your Address"
@@ -108,7 +106,7 @@
                 android:text="@string/city" />
 
             <EditText
-                android:id="@+id/create_city"
+                android:id="@+id/create_staff_city"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your City"
@@ -119,7 +117,7 @@
                 android:text="@string/county" />
 
             <EditText
-                android:id="@+id/create_country"
+                android:id="@+id/create_staff_country"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your Country"
@@ -130,7 +128,7 @@
                 android:text="@string/post_code" />
 
             <EditText
-                android:id="@+id/create_registration_date"
+                android:id="@+id/create_staff_post_code"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your Post Code"
@@ -141,24 +139,49 @@
                 android:text="@string/registration_date" />
 
             <EditText
-                android:id="@+id/create_post_code"
+
+                android:id="@+id/create_staff_registration_date"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter Date"
                 android:inputType="date" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/prompt_password" />
+
+            <EditText
+
+                android:id="@+id/create_staff_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Password"
+                android:inputType="textPassword" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/retype_password" />
+
+            <EditText
+
+                android:id="@+id/create_staff_retype_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Retype Password"
+                android:inputType="textPassword" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/gender" />
             <RadioGroup
-                android:id="@+id/radioGrp"
+                android:id="@+id/staff_radioGrp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radioM"
+                    android:id="@+id/staff_radioM"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:checked="true"
@@ -167,7 +190,7 @@
                     android:text="Male"
                     />
                 <RadioButton
-                    android:id="@+id/radioF"
+                    android:id="@+id/staff_radioF"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:checked="false"
@@ -187,13 +210,13 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/create_button_save"
+                android:id="@+id/create_staff_button_save"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dip"
                 android:background="#ff6347"
                 android:onClick="searchCustomer"
-                android:text="@string/create_customer"
+                android:text="@string/create_staff"
                 android:textColor="#fff" />
         </LinearLayout>
     </ScrollView>
