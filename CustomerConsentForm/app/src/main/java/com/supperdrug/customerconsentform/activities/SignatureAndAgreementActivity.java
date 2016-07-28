@@ -32,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,6 +59,8 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
     private String staffName;
 
     private Bitmap signature;
+
+    private ByteArrayOutputStream bs;
     // UI references.
 
     private Button saveAndComplete;
@@ -95,6 +98,12 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
             }
         });
 
+        clearSignature.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signaturePad.clear();
+            }
+        });
         saveAndComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,8 +118,16 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
     }
 
     private void navigateToUploadActivity() {
-        Intent uploadIntent = new Intent(getApplicationContext(),SignatureAndAgreementActivity.class);
+        Intent uploadIntent = new Intent(getApplicationContext(),UploadActivity.class);
         uploadIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if (bs == null){
+            bs = new ByteArrayOutputStream();
+        }
+        if (signature == null){
+            signature = signaturePad.getTransparentSignatureBitmap();
+        }
+        signature.compress(Bitmap.CompressFormat.PNG, 50, bs);
+        uploadIntent.putExtra("signature_byte_array",bs.toByteArray());
         uploadIntent.putExtra("staff",intent.getExtras().getParcelable("staff"));
         uploadIntent.putExtra("customer",intent.getExtras().getParcelable("customer"));
         uploadIntent.putExtra("selectedTreatments",intent.getStringArrayListExtra("selectedTreatments"));

@@ -1,6 +1,7 @@
 package com.supperdrug.customerconsentform.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,24 +12,22 @@ import java.util.ArrayList;
 /**
  * Created by adammahmood on 24/07/2016.
  */
-public class Customer extends Person {
+public class Customer implements Parcelable {
+    private final String forename;
+    private final String surname;
+    private final String dob;
+    private final String gender;
     private int customerId;
     private String emailAddress;
     private String phoneNumber;
     private String address;
     private String city;
     private String country;
-    public Customer(String name, String dob, String gender, int customerId, String emailAddress, String phoneNumber, String address, String city, String country) {
-        super(name, "", dob, gender);
-        this.customerId = customerId;
-        this.emailAddress = emailAddress;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.city = city;
-        this.country = country;
-    }
     public Customer(String forname,String surname, String dob, String gender, int customerId, String emailAddress, String phoneNumber, String address, String city, String country) {
-        super(forname ,surname, dob, gender);
+        this.forename =forname;
+        this.surname = surname;
+        this.dob = dob;
+        this.gender = gender;
         this.customerId = customerId;
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
@@ -37,7 +36,10 @@ public class Customer extends Person {
         this.country = country;
     }
     protected Customer(Parcel in) {
-        super(in);
+        this.forename = in.readString();
+        this.surname = in.readString();
+        this.gender = in.readString();
+        this.dob = in.readString();
         customerId = in.readInt();
         emailAddress = in.readString();
         phoneNumber = in.readString();
@@ -47,7 +49,10 @@ public class Customer extends Person {
     }
     // Constructor to convert JSON object into a Java class instance
     public Customer(JSONArray object) throws JSONException {
-        super( object.getString(1),object.getString(2),object.getString(3),object.getString(9));
+        this.forename = object.getString(1);
+        this.surname = object.getString(2);
+        this.gender = object.getString(3);
+        this.dob = object.getString(9);
         this.customerId = Integer.parseInt(object.getString(0));
         this.emailAddress = object.getString(4);
         this.phoneNumber = object.getString(8);
@@ -90,6 +95,10 @@ public class Customer extends Person {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(forename);
+        dest.writeString(surname);
+        dest.writeString(gender);
+        dest.writeString(dob);
         dest.writeInt(customerId);
         dest.writeString(emailAddress);
         dest.writeString(phoneNumber);
@@ -133,5 +142,21 @@ public class Customer extends Person {
         sb.append(", country='").append(country).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getForename() {
+        return forename;
     }
 }

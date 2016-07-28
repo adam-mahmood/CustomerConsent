@@ -5,14 +5,22 @@ import android.os.Parcelable;
 
 import java.util.Objects;
 
-public class Staff extends Person {
+public class Staff implements Parcelable {
+
+    private final String forename;
+    private final String surname;
+    private final String dob;
+    private final String gender;
     private final String id;
     //private final Date dob;
     private final String emailAddress;
     private final boolean isAdmin;
 
-    public Staff(String id, String forname, String surname, String emailAddress, String gender, boolean isAdmin,String dob) {
-        super(forname,surname, dob,gender);
+    public Staff(String id, String forename, String surname, String emailAddress, String gender, boolean isAdmin,String dob) {
+        this.forename = forename;
+        this.surname =surname;
+        this.dob = dob;
+        this.gender = gender;
         this.id = id;
         this.emailAddress = emailAddress;
         this.isAdmin = isAdmin;
@@ -24,7 +32,10 @@ public class Staff extends Person {
      * @param in a parcel to read this object
      */
     public Staff(Parcel in) {
-        super(in);
+        this.forename = in.readString();
+        this.surname = in.readString();
+        this.gender = in.readString();
+        this.dob = in.readString();
         this.id = in.readString();
         this.emailAddress = in.readString();
         this.isAdmin =  in.readInt() == 0? false : true;
@@ -46,7 +57,7 @@ public class Staff extends Person {
      */
     @Override
     public int describeContents() {
-        return 0;
+        return hashCode();
     }
     /**
      * Actual object serialization happens here, Write object content
@@ -56,10 +67,10 @@ public class Staff extends Person {
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(getForename());
-        dest.writeString(getSurname());
-        dest.writeString(getGender());
-        dest.writeString(getId());
+        dest.writeString(forename);
+        dest.writeString(surname);
+        dest.writeString(gender);
+        dest.writeString(dob);
         dest.writeString(id);
         dest.writeString(emailAddress);
         dest.writeInt(isAdmin ? 1 : 0);
@@ -98,11 +109,27 @@ public class Staff extends Person {
         Staff staff = (Staff) o;
 
         // Compare the data members and return accordingly
-        return this.id == staff.id && this.getForename() == staff.getForename() && this.getSurname() == staff.getSurname() && this.emailAddress == staff.emailAddress;
+        return this.id == staff.id && this.forename == staff.forename && this.surname == staff.surname && this.emailAddress == staff.emailAddress;
     }
 
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getForename() {
+        return forename;
     }
 }

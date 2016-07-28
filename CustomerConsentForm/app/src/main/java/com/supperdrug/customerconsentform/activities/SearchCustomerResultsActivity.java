@@ -26,6 +26,8 @@ import com.supperdrug.customerconsentform.R;
 import com.supperdrug.customerconsentform.adapters.CustomerAdapter;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
 import com.supperdrug.customerconsentform.models.Customer;
+import com.supperdrug.customerconsentform.models.SearchQuery;
+import com.supperdrug.customerconsentform.models.Staff;
 import com.supperdrug.customerconsentform.utilities.Utility;
 
 import org.json.JSONArray;
@@ -53,7 +55,14 @@ public class SearchCustomerResultsActivity extends AppCompatActivity implements 
     private JSONArray customerRecordsJsonArray;
     // UI references.
 
-    private  TextView searchQuery;
+    private TextView forename;
+    private TextView suraname;
+    private TextView dob;
+    private TextView email_address;
+    private TextView contactNumber;
+    private TextView id;
+
+
     private ListView customerRecords;
     private View mProgressView;
     private View mSearchCustomerFormView;
@@ -79,6 +88,7 @@ public class SearchCustomerResultsActivity extends AppCompatActivity implements 
             throw new IllegalStateException("Cannot Create JSONArray");
         }
         ArrayList<Customer> arrayCustomers = Customer.fromJson(customerRecordsJsonArray);
+        System.out.println(arrayCustomers);
         CustomerAdapter cusAdapter = new CustomerAdapter(this,1,arrayCustomers);
         customerRecords.setAdapter(cusAdapter);
         customerRecords.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -110,19 +120,30 @@ public class SearchCustomerResultsActivity extends AppCompatActivity implements 
 
     private void navigateToTreatementsActivity(JSONArray customerJson) {
         Intent treatmentsIntent = new Intent(getApplicationContext(),TreatmentsResultsActivity.class);
+        Bundle mBundle = new Bundle();
         treatmentsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         treatmentsIntent.putExtra("customerTreatments",customerJson.toString());
         treatmentsIntent.putExtra("Staff_Name",searchCustomerResultsIntent.getStringExtra("Staff_Name"));
-        treatmentsIntent.putExtra("staff",searchCustomerResultsIntent.getExtras().getParcelable("staff"));
-        treatmentsIntent.putExtra("customer",cus);
+        Staff staff = (Staff)searchCustomerResultsIntent.getExtras().getParcelable("staff");
+        treatmentsIntent.putExtra("staff",staff);
+        mBundle.putParcelable("customer",cus);
+        treatmentsIntent.putExtras(mBundle);
         startActivity(treatmentsIntent);
     }
 
 
     private void findViewsById() {
-
-        searchQuery = (TextView)findViewById(R.id.search_query) ;
-        searchQuery.setText(searchCustomerResultsIntent.getStringExtra("searchForQuery"));
+        SearchQuery query = searchCustomerResultsIntent.getExtras().getParcelable("searchForQuery");
+        forename = (TextView)findViewById(R.id.customer_records_forename_text) ;
+        forename.setText(query.getForename());
+        suraname = (TextView)findViewById(R.id.customer_records_surname_text) ;
+        suraname.setText(query.getSurname());
+        email_address = (TextView)findViewById(R.id.customer_records_email_address_text);
+        email_address.setText(query.getEmail());
+        id = (TextView)findViewById(R.id.customer_records_id_text);
+        id.setText(query.getId());
+        dob = (TextView)findViewById(R.id.customer_records_dob_text) ;
+        dob.setText(query.getDob());
         customerRecords = (ListView)findViewById(R.id.customer_records_list_view) ;
         mSearchCustomerFormView = findViewById(R.id.customer_records_view);
         mProgressView = findViewById(R.id.customer_records_progress);

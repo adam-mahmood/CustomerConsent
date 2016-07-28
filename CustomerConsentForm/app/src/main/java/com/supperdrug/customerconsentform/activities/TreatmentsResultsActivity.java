@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -29,6 +30,7 @@ import com.supperdrug.customerconsentform.adapters.TreatmentsAdapter;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
 import com.supperdrug.customerconsentform.models.Customer;
 import com.supperdrug.customerconsentform.models.CustomerTreatment;
+import com.supperdrug.customerconsentform.models.Staff;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,6 +68,7 @@ public class TreatmentsResultsActivity extends AppCompatActivity implements Load
 
     private TextView errMsg;
     private JSONArray customerTretmentsJsonArray;
+    private Customer cus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,7 @@ public class TreatmentsResultsActivity extends AppCompatActivity implements Load
 
         treatmentsIntent = getIntent();
         customerTreatments = treatmentsIntent.getStringExtra("customerTreatments");
+        cus = (Customer) treatmentsIntent.getExtras().getParcelable("customer");
         // Set up the login form.
         findViewsById();
         try {
@@ -125,8 +129,9 @@ public class TreatmentsResultsActivity extends AppCompatActivity implements Load
         b.putStringArrayList("selectedTreatments", selectedTreatments);
         signatureIntent.putExtras(b);
         signatureIntent.putExtra("Staff_Name",treatmentsIntent.getStringExtra("Staff_Name"));
-        signatureIntent.putExtra("staff",treatmentsIntent.getExtras().getParcelable("staff"));
-        signatureIntent.putExtra("customer",treatmentsIntent.getExtras().getParcelable("customer"));
+        Staff staff = (Staff) treatmentsIntent.getExtras().getParcelable("staff");
+        signatureIntent.putExtra("staff",staff);
+        signatureIntent.putExtra("customer",cus);
         startActivity(signatureIntent);
     }
 

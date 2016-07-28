@@ -28,6 +28,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.supperdrug.customerconsentform.R;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
+import com.supperdrug.customerconsentform.models.SearchQuery;
 import com.supperdrug.customerconsentform.utilities.Utility;
 
 import org.json.JSONArray;
@@ -54,7 +55,7 @@ public class SearchCustomerActivity extends AppCompatActivity implements LoaderM
 
     private Intent staffIntent;
 
-    private String searcForQuery;
+    private SearchQuery searcForQuery;
     // UI references.
 
     private View mProgressView;
@@ -127,7 +128,7 @@ public class SearchCustomerActivity extends AppCompatActivity implements LoaderM
         String surname = customerSurname.getText().toString();
         String dob = customerDob.getText().toString();
         String number = customerContactNumber.getText().toString();
-        searcForQuery = String.format("Search Query:\n Forename = %s \t\t\t\t\t\t\t\t\t\t\t\t Surname = %s \t\t\t\t\t\t\t\t\t Customer ID = %s \n Email Address = %s \n DOB = %s \t\t\t\t\t\t\t\t\t\t\t\t\t\t Phone Number = %s",forname,surname,id,email,dob,number);
+        searcForQuery = new SearchQuery(email,id,forname,surname,dob,number);
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
 
@@ -147,6 +148,8 @@ public class SearchCustomerActivity extends AppCompatActivity implements LoaderM
                 }else{
                     Toast.makeText(getApplicationContext(), "Please enter valid email", Toast.LENGTH_LONG).show();
                 }
+            }else if( Utility.isNotNull(id) || Utility.isNotNull(forname) || Utility.isNotNull(surname) || Utility.isNotNull(dob) || Utility.isNotNull(number)){
+                invokeWS(params);
             }
         }
     }
@@ -171,13 +174,12 @@ public class SearchCustomerActivity extends AppCompatActivity implements LoaderM
                 try {
                     // JSON Object
                     JSONObject obj = new JSONObject(response);
-                    System.out.println(response);
                     // When the JSON response has status boolean value assigned with true
                     if(obj.getInt("status") == 200){
                         Log.i(TAG,"Invoking Web Services Success!");
                         Toast.makeText(getApplicationContext(), "Customer Records Found!", Toast.LENGTH_LONG).show();
                         JSONArray CustomerJson = obj.getJSONArray("result");
-
+                        System.out.println(CustomerJson);
                         // Navigate to Customer Records Screen
                         navigatetoSearchCustomerResultsActivity(CustomerJson);
 
@@ -225,7 +227,7 @@ public class SearchCustomerActivity extends AppCompatActivity implements LoaderM
         searchCustomerResultsIntent.putExtra("customerRecords",customerJson.toString());
         searchCustomerResultsIntent.putExtra("searchForQuery", searcForQuery);
         searchCustomerResultsIntent.putExtra("Staff_Name",staffIntent.getStringExtra("Staff_Name"));
-        searchCustomerResultsIntent.putExtra("staff",staffIntent.getExtras().getParcelableArray("staff"));
+        searchCustomerResultsIntent.putExtra("staff",staffIntent.getExtras().getParcelable("staff"));
         startActivity(searchCustomerResultsIntent);
     }
 
