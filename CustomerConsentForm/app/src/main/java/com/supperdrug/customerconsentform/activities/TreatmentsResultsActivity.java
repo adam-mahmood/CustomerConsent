@@ -86,6 +86,7 @@ public class TreatmentsResultsActivity extends AppCompatActivity implements Load
             e.printStackTrace();
             throw new IllegalStateException("Cannot Create JSONArray");
         }
+
         ArrayList<CustomerTreatment> arrayCustomerTreatments = CustomerTreatment.fromJson(customerTretmentsJsonArray);
         TreatmentsAdapter cusAdapter = new TreatmentsAdapter(this,0,arrayCustomerTreatments);
         treatments.setAdapter(cusAdapter);

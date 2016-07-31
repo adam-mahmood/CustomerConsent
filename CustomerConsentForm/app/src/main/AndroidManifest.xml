@@ -26,6 +26,9 @@
         <activity android:name=".activities.MainMenuAdminActivity" android:label="@string/main_menu_admin">>
 
         </activity>
+        <activity android:name=".activities.MainMenuActivity" android:label="@string/main_menu">>
+
+        </activity>
         <activity android:name=".activities.CreateCustomerActivity" android:label="@string/create_customer">>
 
         </activity>
@@ -42,6 +45,7 @@
 
         </activity>
         <activity android:name=".activities.SignatureAndAgreementActivity" android:label="@string/signature_and_agreement">>
+        </activity>
 
 
 	<!-- ATTENTION: This was auto-generated to add Google Play services to your project for

@@ -26,6 +26,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.supperdrug.customerconsentform.R;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
+import com.supperdrug.customerconsentform.models.Staff;
 import com.supperdrug.customerconsentform.utilities.Utility;
 
 import org.json.JSONArray;
@@ -58,6 +59,8 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
 
     private String staffName;
 
+    private Staff staff;
+
     private Bitmap signature;
 
     private ByteArrayOutputStream bs;
@@ -79,6 +82,7 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
         setContentView(R.layout.signature_and_agreement);
         intent = getIntent();
         staffName = intent.getStringExtra("Staff_Name");
+        staff = intent.getExtras().getParcelable("staff");
         customerTreatments = intent.getStringArrayListExtra("selectedTreatments");
         findViewsById();
 
@@ -107,8 +111,13 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
         saveAndComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isSigned && Utility.isNotNull(therapistName.getText().toString())){
-                    navigateToUploadActivity();
+                if (isSigned ){
+                    if (Utility.isNotNull(therapistName.getText().toString())){
+                        navigateToUploadActivity();
+                    }else{
+                        Toast.makeText(getBaseContext(), "Therapist Name cannot be blank!", Toast.LENGTH_LONG).show();
+                    }
+
                 }else{
                     Toast.makeText(getBaseContext(), "Please Sign!", Toast.LENGTH_LONG).show();
                 }
@@ -128,7 +137,7 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
         }
         signature.compress(Bitmap.CompressFormat.PNG, 50, bs);
         uploadIntent.putExtra("signature_byte_array",bs.toByteArray());
-        uploadIntent.putExtra("staff",intent.getExtras().getParcelable("staff"));
+        uploadIntent.putExtra("staff",staff);
         uploadIntent.putExtra("customer",intent.getExtras().getParcelable("customer"));
         uploadIntent.putExtra("selectedTreatments",intent.getStringArrayListExtra("selectedTreatments"));
         startActivity(uploadIntent);
@@ -143,7 +152,7 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
         clearSignature = (Button) findViewById(R.id.signature_clear);
 
         therapistName = (TextView)findViewById(R.id.signature_therapist_name_text) ;
-        therapistName.setText(staffName);
+        therapistName.setText(staff.getForename() + " " + staff.getSurname());
 
         date = (TextView)findViewById(R.id.signature_date_text) ;
         DateFormat df = new SimpleDateFormat("dd/MM/yy");

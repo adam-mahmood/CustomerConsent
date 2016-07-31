@@ -257,7 +257,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             navigatetoHomeAdminActivity();
                         }else {
                             navigatetoHomeActivity();
-                        }*/
+                        }
                     }
                     else {
     /*                    errorMsg.setText(obj.getString("message"));
@@ -294,6 +294,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_LONG).show();
                         JSONArray staffJson = obj.getJSONArray("staff");
                         staff = new Staff(staffJson.getString(0),staffJson.getString(1),staffJson.getString(2),staffJson.getString(4),staffJson.getString(5),staffJson.getBoolean(3), staffJson.getString(6));
+                        System.out.println(staff.isAdmin());
                         // Navigate to Home screen
                         if (obj.getBoolean("isAdmin")){
 
@@ -351,7 +352,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         startActivity(homeIntent);
     }
     public void navigatetoHomeActivity(Staff staff){
-        Intent homeIntent = new Intent(getApplicationContext(),MainMenuAdminActivity.class);
+        Intent homeIntent = new Intent(getApplicationContext(),MainMenuActivity.class);
         homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         homeIntent.putExtra("staff",staff);
         startActivity(homeIntent);

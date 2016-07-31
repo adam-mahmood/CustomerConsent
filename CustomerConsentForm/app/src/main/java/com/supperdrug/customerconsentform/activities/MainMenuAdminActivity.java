@@ -103,20 +103,24 @@ public class MainMenuAdminActivity extends AppCompatActivity implements LoaderCa
     private void navigateToCreateCustomerView(View view) {
         Intent createCustomerIntent = new Intent(getApplicationContext(),CreateCustomerActivity.class);
         createCustomerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        createCustomerIntent.putExtra("staff",staff);
+        createCustomerIntent.putExtra("Staff_Name",staff.getForename() + " " + staff.getSurname());
        // createCustomerIntent.putExtra("Staff",staff);
         startActivity(createCustomerIntent);
     }
     private void navigateToCreateStaffView(View view) {
-        Intent createCustomerIntent = new Intent(getApplicationContext(),CreateStaffActivity.class);
-        createCustomerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent createStaffIntent = new Intent(getApplicationContext(),CreateStaffActivity.class);
+        createStaffIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        createStaffIntent.putExtra("staff",staff);
+        createStaffIntent.putExtra("Staff_Name",staff.getForename() + " " + staff.getSurname());
         // createCustomerIntent.putExtra("Staff",staff);
-        startActivity(createCustomerIntent);
+        startActivity(createStaffIntent);
     }
     private void navigateToLogoutView(View view) {
-        Intent createCustomerIntent = new Intent(getApplicationContext(),LoginActivity.class);
-        createCustomerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent logoutIntent = new Intent(getApplicationContext(),LoginActivity.class);
+        logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         // createCustomerIntent.putExtra("Staff",staff);
-        startActivity(createCustomerIntent);
+        startActivity(logoutIntent);
     }
     /**
      * Method that performs RESTful webservice invocations

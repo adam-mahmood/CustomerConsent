@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -22,7 +23,10 @@ import android.widget.Toast;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.ResponseHandlerInterface;
+import com.loopj.android.http.SyncHttpClient;
 import com.supperdrug.customerconsentform.R;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
 import com.supperdrug.customerconsentform.models.Customer;
@@ -47,6 +51,8 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
 
     private Customer customer;
 
+    private boolean customerCreated;
+
     private View mProgressView;
 ;   private View mFormView;
 
@@ -67,10 +73,10 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    private String url;
 
 
-
-   @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_customers);
@@ -101,7 +107,8 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
         addCustomerBut =(Button) findViewById(R.id.create_button_save);
         addCustomerBut.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
+                url = "superdrug/createcustomer";
                 createCustomer(view);
             }
         });
@@ -112,12 +119,10 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton radioF = (RadioButton) group.findViewById(R.id.radioF);
                 RadioButton radioM = (RadioButton)group.findViewById(R.id.radioM);
-                if(checkedId == radioF.getId())
-                {
+                if(checkedId == radioF.getId()){
                     genderStr = "Female";
                 }
-                else if (checkedId == radioM.getId())
-                {
+                else if (checkedId == radioM.getId()) {
                     genderStr = "Male";
                 }
             }
@@ -125,7 +130,6 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
 
 
     }
-
     private void createCustomer(View view) {
         String _email = emailAddress.getText().toString();
         String _forename = forename.getText().toString();
@@ -141,9 +145,9 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
 
-        if (!Utility.isNotNull(_email) &&  !Utility.isNotNull(_forename) && !Utility.isNotNull(_surname) && !Utility.isNotNull(_dob) && !Utility.isNotNull(_number)&& !Utility.isNotNull(_postCode)&& !Utility.isNotNull(_city)&& !Utility.isNotNull(_country)
-                && !Utility.isNotNull(_regiDate) && !Utility.isNotNull(_address) ){
-            Toast.makeText(getApplicationContext(), "please fill in required text field", Toast.LENGTH_LONG).show();
+        if (!Utility.isNotNull(_email) ||  !Utility.isNotNull(_forename) || !Utility.isNotNull(_surname) || !Utility.isNotNull(_dob) || !Utility.isNotNull(_number)|| !Utility.isNotNull(_postCode)|| !Utility.isNotNull(_city)|| !Utility.isNotNull(_country)
+                || !Utility.isNotNull(_regiDate) || !Utility.isNotNull(_address) ){
+            Toast.makeText(getApplicationContext(), "Please fill in required text field", Toast.LENGTH_LONG).show();
         }else {
             params.add("email_address",_email);
             params.add("surname",_surname);
@@ -193,12 +197,16 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
                     // When the JSON response has status boolean value assigned with true
                     if(obj.getInt("status") == 200){
                         Log.i(TAG,"Invoking Web Services Success!");
-                        Toast.makeText(getApplicationContext(), "Customer Records Found!", Toast.LENGTH_LONG).show();
-                        JSONArray CustomerJson = obj.getJSONArray("result");
-                        customer = new Customer(CustomerJson);
-
-                        // Navigate to Customer Records Screen
-                        navigatetActivity(CustomerJson);
+                        if (!customerCreated){
+                            Toast.makeText(getApplicationContext(), "Customer Created Succesfully!", Toast.LENGTH_LONG).show();
+                            JSONArray CustomerJson = obj.getJSONArray("result");
+                            Log.i(TAG,CustomerJson.toString());
+                            customer = new Customer(CustomerJson);
+                            customerCreated = true;
+                            JSONArray customerTreatments = obj.getJSONArray("treatments");
+                            System.out.println(customerTreatments);
+                            navigateActivity(customerTreatments);
+                        }
 
                     }
                     // Else display error message
@@ -235,14 +243,16 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
                 }
             }
         };
-        CustomerConsentFormRestClient.post("superdrug/createcustomer",params ,responsehandler);
+        CustomerConsentFormRestClient.post(url,params ,responsehandler);
     }
 
-    private void navigatetActivity(JSONArray customerJson)
+    private void navigateActivity(JSONArray CustomerTreatmentsJson)
     {
         Intent treatmentIntent = new Intent(getApplicationContext(),TreatmentsResultsActivity.class);
         treatmentIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         treatmentIntent.putExtra("customer",customer);
+        treatmentIntent.putExtra("customerTreatments",CustomerTreatmentsJson.toString());
+        treatmentIntent.putExtra("staff",intent.getExtras().getParcelable("staff"));
         // createCustomerIntent.putExtra("Staff",staff);
         startActivity(treatmentIntent);
     }

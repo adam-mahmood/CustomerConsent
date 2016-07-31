@@ -23,7 +23,9 @@ public class Customer implements Parcelable {
     private String address;
     private String city;
     private String country;
-    public Customer(String forname,String surname, String dob, String gender, int customerId, String emailAddress, String phoneNumber, String address, String city, String country) {
+    private String postCode;
+    private String regDate;
+    public Customer(String forname, String surname, String dob, String gender, int customerId, String emailAddress, String phoneNumber, String address, String city, String country, String postCode, String regDate) {
         this.forename =forname;
         this.surname = surname;
         this.dob = dob;
@@ -34,6 +36,8 @@ public class Customer implements Parcelable {
         this.address = address;
         this.city = city;
         this.country = country;
+        this.postCode =postCode;
+        this.regDate = regDate;
     }
     protected Customer(Parcel in) {
         this.forename = in.readString();
@@ -46,19 +50,25 @@ public class Customer implements Parcelable {
         address = in.readString();
         city = in.readString();
         country = in.readString();
+        postCode = in.readString();
+        regDate = in.readString();
     }
     // Constructor to convert JSON object into a Java class instance
     public Customer(JSONArray object) throws JSONException {
+        this.customerId = Integer.parseInt(object.getString(0));
         this.forename = object.getString(1);
         this.surname = object.getString(2);
         this.gender = object.getString(3);
-        this.dob = object.getString(9);
-        this.customerId = Integer.parseInt(object.getString(0));
         this.emailAddress = object.getString(4);
-        this.phoneNumber = object.getString(8);
         this.address = object.getString(5);
         this.city = object.getString(6);
         this.country = object.getString(7);
+        this.postCode = object.getString(8);
+        this.dob = object.getString(9);
+        this.phoneNumber = object.getString(10);
+        this.regDate = object.getString(11);
+
+
 
     }
 
@@ -105,6 +115,8 @@ public class Customer implements Parcelable {
         dest.writeString(address);
         dest.writeString(city);
         dest.writeString(country);
+        dest.writeString(postCode);
+        dest.writeString(regDate);
     }
 
     public int getCustomerId() {
