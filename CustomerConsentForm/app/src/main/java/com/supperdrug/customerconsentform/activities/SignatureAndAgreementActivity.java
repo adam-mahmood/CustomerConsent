@@ -26,6 +26,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.supperdrug.customerconsentform.R;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
+import com.supperdrug.customerconsentform.models.CustomerTreatment;
 import com.supperdrug.customerconsentform.models.Staff;
 import com.supperdrug.customerconsentform.utilities.Utility;
 
@@ -52,8 +53,6 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
     private static  final String TAG = SignatureAndAgreementActivity.class.getName();
 
     private Intent intent;
-
-    private ArrayList<String> customerTreatments;
 
     private boolean isSigned;
 
@@ -83,7 +82,6 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
         intent = getIntent();
         staffName = intent.getStringExtra("Staff_Name");
         staff = intent.getExtras().getParcelable("staff");
-        customerTreatments = intent.getStringArrayListExtra("selectedTreatments");
         findViewsById();
 
         signaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
@@ -139,7 +137,7 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
         uploadIntent.putExtra("signature_byte_array",bs.toByteArray());
         uploadIntent.putExtra("staff",staff);
         uploadIntent.putExtra("customer",intent.getExtras().getParcelable("customer"));
-        uploadIntent.putExtra("selectedTreatments",intent.getStringArrayListExtra("selectedTreatments"));
+        uploadIntent.putParcelableArrayListExtra("selectedTreatments2",intent.getExtras().getParcelableArrayList("selectedTreatments2"));
         startActivity(uploadIntent);
     }
 

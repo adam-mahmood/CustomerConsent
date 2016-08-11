@@ -34,7 +34,7 @@ public class CustomerTreatment implements Parcelable {
         this.treatmentName = object.getString(0);
         this.customerForename =  object.getString(1);
         this.customerSurname =  object.getString(2);
-        this.treatment_id = object.getString(3);
+        this.treatment_id = object.getString(4);
 
     }
 
@@ -119,7 +119,7 @@ public class CustomerTreatment implements Parcelable {
         return customerSurname;
     }
 
-    public String getTreatment_id() {
+    public String getTreatmentId() {
         return treatment_id;
     }
 
@@ -138,4 +138,26 @@ public class CustomerTreatment implements Parcelable {
         return sb.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CustomerTreatment that = (CustomerTreatment) o;
+
+        if (!treatmentName.equals(that.treatmentName)) return false;
+        if (!customerForename.equals(that.customerForename)) return false;
+        if (!customerSurname.equals(that.customerSurname)) return false;
+        return treatment_id.equals(that.treatment_id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = treatmentName.hashCode();
+        result = 31 * result + customerForename.hashCode();
+        result = 31 * result + customerSurname.hashCode();
+        result = 31 * result + treatment_id.hashCode();
+        return result;
+    }
 }

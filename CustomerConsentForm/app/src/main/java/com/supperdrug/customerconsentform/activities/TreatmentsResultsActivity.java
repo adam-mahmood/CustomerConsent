@@ -58,7 +58,7 @@ public class TreatmentsResultsActivity extends AppCompatActivity implements Load
 
     private boolean checked;
 
-    private ArrayList<String> selectedTreatments = new ArrayList<>();
+    private ArrayList<CustomerTreatment> selectedTreatments2 = new ArrayList<>();
     // UI references.
 
     private Button next;
@@ -100,10 +100,10 @@ public class TreatmentsResultsActivity extends AppCompatActivity implements Load
                 cus.setSelected(!cus.isSelected());
                 selected.setChecked(cus.isSelected());
                 if(cus.isSelected()){
-                    selectedTreatments.add(cus.getTreatmentName());
+                    selectedTreatments2.add(cus);
                 }else {
-                    if(selectedTreatments.contains(cus.getTreatmentName())){
-                        selectedTreatments.remove(cus.getTreatmentName());
+                    if(selectedTreatments2.contains(cus)){
+                        selectedTreatments2.remove(cus);
                     }
                 }
                 //Toast.makeText(getBaseContext(), cus.toString(), Toast.LENGTH_LONG).show();
@@ -113,7 +113,7 @@ public class TreatmentsResultsActivity extends AppCompatActivity implements Load
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectedTreatments.isEmpty()){
+                if(selectedTreatments2.isEmpty()){
                     Toast.makeText(getBaseContext(), "Please select a treatment before proceeding ahead!", Toast.LENGTH_LONG).show();
                 }else {
                     navigateToSignatureAndAgreementActivity();
@@ -126,13 +126,11 @@ public class TreatmentsResultsActivity extends AppCompatActivity implements Load
     private void navigateToSignatureAndAgreementActivity() {
         Intent signatureIntent = new Intent(getApplicationContext(),SignatureAndAgreementActivity.class);
         signatureIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        Bundle b = new Bundle();
-        b.putStringArrayList("selectedTreatments", selectedTreatments);
-        signatureIntent.putExtras(b);
         signatureIntent.putExtra("Staff_Name",treatmentsIntent.getStringExtra("Staff_Name"));
         Staff staff = (Staff) treatmentsIntent.getExtras().getParcelable("staff");
         signatureIntent.putExtra("staff",staff);
         signatureIntent.putExtra("customer",cus);
+        signatureIntent.putParcelableArrayListExtra("selectedTreatments2",selectedTreatments2);
         startActivity(signatureIntent);
     }
 
