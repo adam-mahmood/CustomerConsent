@@ -38,7 +38,9 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by adammahmood on 27/07/2016.
@@ -157,6 +159,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
             checkedText.setClickable(false);
             checkedText.setChecked(true);
             checkedText.setCheckMarkDrawable(checkMarkDrawableResId);
+            layoutTreatments.addView(checkedText);
             treatmentIds[i] = Integer.parseInt(selectedTreatments2.get(i).getTreatmentId());
         }
         layoutSignature = (RelativeLayout) findViewById(R.id.upload_signature_layout);
@@ -166,12 +169,16 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                upload(v);
+                try {
+                    upload(v);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    private void upload(View v) {
+    private void upload(View v) throws JSONException {
         String customerId = String.valueOf(cus.getCustomerId());
         String staffId = staff.getId();
         RequestParams params = new RequestParams();
@@ -179,11 +186,19 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         if (!Utility.isNotNull(staffId) && !Utility.isNotNull(String.valueOf(customerId)) && selectedTreatments2.isEmpty() ){
             Toast.makeText(getApplicationContext(), "Cannot upload without staff or customer details", Toast.LENGTH_LONG).show();
         }else {
-            params.add("customer_id",customerId);
+            params.put("customer_id",customerId);
             params.add("staff_id",staffId);
-            params.put("treatment_ids", treatmentIds);
+            //params.put("treatment_ids", Arrays.toString(treatmentIds));
+            for (int i = 0;i < treatmentIds.length;i++){
+                params.add("treatment_ids", String.valueOf(treatmentIds[i]));
+            }
             params.add("upload_date", String.valueOf(date.getText()));
-            params.put("signature_byte_array", byteArray);
+            //params.put("signature_byte_array", byteArray);
+            for (int i = 0;i < byteArray.length;i++){
+                params.add("signature_byte_array", String.valueOf(byteArray[i]));
+                System.out.println(String.valueOf(byteArray[i]));
+            }
+            params.put("signature_bitmap", decodeByteArray());
             invokeWS(params);
 
         }
@@ -230,10 +245,9 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
                     // When the JSON response has status boolean value assigned with true
                     if(obj.getInt("status") == 200){
                         Log.i(TAG,"Invoking Web Services Success!");
-                        Toast.makeText(getApplicationContext(), "Upload Successfull!", Toast.LENGTH_LONG).show();
-                        JSONArray CustomerJson = obj.getJSONArray("results");
-                        // Navigate to Customer Records Screen
-                        //navigatetoSearchCustomerResultsActivity(CustomerJson);
+                        String message = obj.getString("message");
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+
                         navigateToLogoutView();
 
                     }
