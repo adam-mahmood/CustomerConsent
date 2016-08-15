@@ -7,7 +7,6 @@ import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +19,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -154,7 +152,7 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
         if (!Utility.isNotNull(_email) &&  !Utility.isNotNull(_forename) && !Utility.isNotNull(_surname) && !Utility.isNotNull(_dob) && !Utility.isNotNull(_number)&& !Utility.isNotNull(_postCode)&& !Utility.isNotNull(_city)&& !Utility.isNotNull(_country)
                 && !Utility.isNotNull(_regiDate) )
         {
-            Toast.makeText(getApplicationContext(), "please fill in required text field", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Please fill in required text field", Toast.LENGTH_LONG).show();
         }
         else {
             if (_password.equals(_retypePassword))
@@ -162,8 +160,8 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
                 params.add("email_address", _email);
                 params.add("surname", _surname);
                 params.add("forname", _forename);
-                params.add("contact_number", _number);
-                params.add("date_of_birth", _dob);
+                params.add("phone_number", _number);
+                params.add("dob", _dob);
                 params.add("post_code", _postCode);
                 params.add("city", _city);
                 params.add("country", _country);
@@ -214,7 +212,7 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
                     // When the JSON response has status boolean value assigned with true
                     if(obj.getInt("status") == 200){
                         Log.i(TAG,"Invoking Web Services Success!");
-                        Toast.makeText(getApplicationContext(), "Customer Records Found!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Staff Has been created successfully!", Toast.LENGTH_LONG).show();
                         JSONArray CustomerJson = obj.getJSONArray("result");
 
                         // Navigate to Customer Records Screen
@@ -255,7 +253,7 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
                 }
             }
         };
-        CustomerConsentFormRestClient.post("superdrug/createcustomer",params ,responsehandler);
+        CustomerConsentFormRestClient.post("superdrug/createstaff",params ,responsehandler);
     }
 
     private void navigatetActivity(JSONArray customerJson) {

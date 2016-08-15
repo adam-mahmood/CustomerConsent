@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activities.MainMenuAdminActivity"
-    android:background="@drawable/background2">
+    android:background="@drawable/bg">
 
     <!-- Login progress -->
 
@@ -24,7 +24,7 @@
     <ScrollView
         android:id="@+id/main_menu_form_view"
         android:layout_width="match_parent"
-        android:layout_height="505dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/main_menu_form_layout"
@@ -33,50 +33,57 @@
             android:orientation="vertical"
             android:gravity="center_vertical"
             android:baselineAligned="false"
-            android:paddingTop="80dp">
+            android:paddingTop="35dp"
+            android:weightSum="1">
 
 
             <ImageButton
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/image_button_search"
-                android:src="@drawable/search"
+                android:src="@drawable/search_existing_member"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
                 android:background="#00ffffff" />
 
             <ImageButton
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/image_button_create_new_customer"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/newmember"
+                android:src="@drawable/create_new_member"
                 android:layout_marginRight="0dp"
                 android:layout_margin="0dp"
                 android:scaleType="fitCenter"
-                android:background="#00ffffff" />
+                android:background="#01ffffff"
+                android:paddingBottom="-200dp"
+                android:adjustViewBounds="true" />
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/image_button_manage_accounts"
-                android:src="@drawable/button"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:background="#00ffffff" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/image_button_sign_out"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/logout"
+                android:src="@drawable/logout_user"
                 android:layout_marginRight="0dp"
                 android:layout_margin="0dp"
                 android:scaleType="fitCenter"
                 android:visibility="visible"
-                android:background="#00ffffff" />
+                android:background="#00ffffff"
+                android:adjustViewBounds="true" />
+
+            <Button
+                android:layout_width="308dp"
+                android:layout_height="80dp"
+                android:id="@+id/image_button_manage_accounts"
+                android:src="@drawable/button"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:background="@drawable/manage_staff"
+                android:textAlignment="gravity"
+                android:textStyle="normal"
+                android:textSize="19dp"
+                android:layout_weight="314" />
 
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>

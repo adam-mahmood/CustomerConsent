@@ -36,6 +36,7 @@
     <!-- Strings related to Staff -->
     <string name="create_staff">Create Staff</string>
     <string name="retype_password">Retype Password </string>
+    <string name="manage_staff">Manage Staff  </string>
 
     <!-- Strings related to Treatments -->
     <string name="treatments">Treatments</string>

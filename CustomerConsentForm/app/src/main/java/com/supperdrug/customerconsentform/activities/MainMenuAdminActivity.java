@@ -15,6 +15,7 @@ import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -51,7 +52,7 @@ public class MainMenuAdminActivity extends AppCompatActivity implements LoaderCa
     private View mMainMenuAdminFormView;
     private ImageButton searchCustomer;
     private ImageButton newCustomer;
-    private ImageButton manageAccounts;
+    private Button manageAccounts;
     private ImageButton signOut;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +75,11 @@ public class MainMenuAdminActivity extends AppCompatActivity implements LoaderCa
                         navigateToCreateCustomerView(view);
             }
         });
-        manageAccounts = (ImageButton) findViewById(R.id.image_button_manage_accounts);
+        manageAccounts = (Button) findViewById(R.id.image_button_manage_accounts);
         manageAccounts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navigateToCreateStaffView(view);
+                navigateToManageStaffView(view);
             }
         });
         signOut = (ImageButton) findViewById(R.id.image_button_sign_out);
@@ -106,8 +107,8 @@ public class MainMenuAdminActivity extends AppCompatActivity implements LoaderCa
        // createCustomerIntent.putExtra("Staff",staff);
         startActivity(createCustomerIntent);
     }
-    private void navigateToCreateStaffView(View view) {
-        Intent createCustomerIntent = new Intent(getApplicationContext(),CreateStaffActivity.class);
+    private void navigateToManageStaffView(View view) {
+        Intent createCustomerIntent = new Intent(getApplicationContext(),ManageStaffActivity.class);
         createCustomerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         // createCustomerIntent.putExtra("Staff",staff);
         startActivity(createCustomerIntent);

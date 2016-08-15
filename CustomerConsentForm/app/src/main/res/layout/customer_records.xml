@@ -28,7 +28,8 @@ android:layout_height="match_parent">
         <RelativeLayout
             android:id="@+id/customer_records_layout_search_query"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#feffffff">
             <TextView
                 android:id="@+id/search_query_label"
                 android:layout_width="wrap_content"
