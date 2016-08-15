@@ -19,6 +19,9 @@ public class CustomerConsentFormRestClient {
     public  static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler){
         client.post(getAbsoluteUrl(url),params,responseHandler);
     }
+    public static void Wait(long milliseconds) throws InterruptedException {
+        client.wait(milliseconds);
+    }
 
     private static String getAbsoluteUrl(String relativeUrl) {
         return BASE_URL + relativeUrl;

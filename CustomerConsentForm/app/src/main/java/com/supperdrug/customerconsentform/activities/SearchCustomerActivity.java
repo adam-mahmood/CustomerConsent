@@ -136,9 +136,9 @@ public class SearchCustomerActivity extends AppCompatActivity implements LoaderM
             Toast.makeText(getApplicationContext(), "Cannot perform search on a blank form. Fill at least one field", Toast.LENGTH_LONG).show();
         }else {
             params.add("email_address",email);
-            params.add("id",id);
+            params.add("customer_id",id);
             params.add("surname",surname);
-            params.add("forname",forname);
+            params.add("forename",forname);
             params.add("contact_number",number);
             params.add("date_of_birth",dob);
 
