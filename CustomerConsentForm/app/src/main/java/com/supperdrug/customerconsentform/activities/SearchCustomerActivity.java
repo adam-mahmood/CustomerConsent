@@ -60,7 +60,6 @@ public class SearchCustomerActivity extends AppCompatActivity implements LoaderM
 
     private View mProgressView;
     private View mSearchCustomerFormView;
-    private EditText customerId;
     private EditText customerForename;
     private EditText customerSurname;
     private EditText customerEmail;
@@ -109,7 +108,7 @@ public class SearchCustomerActivity extends AppCompatActivity implements LoaderM
             }
         });
 
-        customerId = (EditText)findViewById(R.id.customer_id) ;
+
         customerForename = (EditText)findViewById(R.id.register_forename) ;
         customerSurname = (EditText)findViewById(R.id.register_surname) ;
         customerEmail = (EditText)findViewById(R.id.register_email) ;
@@ -123,20 +122,19 @@ public class SearchCustomerActivity extends AppCompatActivity implements LoaderM
 
     private void searchCustomer(View view) {
         String email = customerEmail.getText().toString();
-        String id = customerId.getText().toString();
         String forname = customerForename.getText().toString();
         String surname = customerSurname.getText().toString();
         String dob = customerDob.getText().toString();
         String number = customerContactNumber.getText().toString();
-        searcForQuery = new SearchQuery(email,id,forname,surname,dob,number);
+        searcForQuery = new SearchQuery(email,forname,surname,dob,number);
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
 
-        if (!Utility.isNotNull(email) && !Utility.isNotNull(id) && !Utility.isNotNull(forname) && !Utility.isNotNull(surname) && !Utility.isNotNull(dob) && !Utility.isNotNull(number) ){
+        if (!Utility.isNotNull(email)  && !Utility.isNotNull(forname) && !Utility.isNotNull(surname) && !Utility.isNotNull(dob) && !Utility.isNotNull(number) ){
             Toast.makeText(getApplicationContext(), "Cannot perform search on a blank form. Fill at least one field", Toast.LENGTH_LONG).show();
         }else {
             params.add("email_address",email);
-            params.add("customer_id",id);
+
             params.add("surname",surname);
             params.add("forename",forname);
             params.add("contact_number",number);
@@ -148,7 +146,7 @@ public class SearchCustomerActivity extends AppCompatActivity implements LoaderM
                 }else{
                     Toast.makeText(getApplicationContext(), "Please enter valid email", Toast.LENGTH_LONG).show();
                 }
-            }else if( Utility.isNotNull(id) || Utility.isNotNull(forname) || Utility.isNotNull(surname) || Utility.isNotNull(dob) || Utility.isNotNull(number)){
+            }else if(  Utility.isNotNull(forname) || Utility.isNotNull(surname) || Utility.isNotNull(dob) || Utility.isNotNull(number)){
                 invokeWS(params);
             }
         }

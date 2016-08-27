@@ -32,16 +32,8 @@ android:layout_height="match_parent">
 
                 <!-- Name Label -->
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/customer_id" />
                 <!-- Name TextField -->
 
-                <EditText
-                    android:id="@+id/customer_id"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" android:hint="Enter your Customer ID" />
                 <!-- Name Label -->
 
                 <TextView

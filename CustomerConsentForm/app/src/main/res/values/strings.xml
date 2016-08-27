@@ -50,6 +50,7 @@
     <string name="upload">Upload</string>
     <string name="search_query">Search Query:</string>
     <string name="main_menu">Main Menu</string>
+    <string name="branch_name">Branch Name</string>
 
 
 </resources>

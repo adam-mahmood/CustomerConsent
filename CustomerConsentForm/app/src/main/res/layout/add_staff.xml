@@ -22,13 +22,25 @@
             android:orientation="vertical"
             android:padding="5dip" >
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/create_staff"
                 android:textSize="25sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="Branch Name"
+                android:layout_marginBottom="5dp"/>
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:prompt="@string/branch_name"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -40,7 +52,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your Forename"
-                android:inputType="textPersonName" />
+                android:inputType="textCapSentences" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -52,7 +64,20 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your Surename"
-                android:inputType="textPersonName" />
+                android:inputType="textCapSentences" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Username"
+                android:id="@+id/userName"/>
+
+            <EditText
+                android:id="@+id/create_staff_username"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your Username"/>
+
 
             <TextView
                 android:layout_width="fill_parent"
@@ -88,7 +113,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your D.O.B"
-                android:inputType="date" />
+                android:inputType="date"
+                />
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -99,7 +125,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your Address"
-                android:inputType="text|date" />
+                android:inputType="textCapSentences" />
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -110,18 +136,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your City"
-                android:inputType="text|date" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/county" />
+                android:inputType="textCapSentences" />
 
-            <EditText
-                android:id="@+id/create_staff_country"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter your Country"
-                android:inputType="text|date" />
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -132,7 +148,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your Post Code"
-                android:inputType="text|date" />
+                android:inputType="textCapCharacters"
+                 />
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -198,6 +215,35 @@
                     android:textSize="14dp"
                     android:text="Female"
                     />
+            </RadioGroup>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Is Administrator" />
+
+            <RadioGroup
+                android:id="@+id/staff_or_adminGrp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/no_radio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:layout_weight="1"
+                    android:textSize="14dp"
+                    android:text="No"/>
+
+                <RadioButton
+                    android:id="@+id/yes_radio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:layout_weight="1"
+                    android:textSize="14dp"
+                    android:text="Yes"/>
             </RadioGroup>
 
             <TextView

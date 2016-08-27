@@ -12,10 +12,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,11 +28,15 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.supperdrug.customerconsentform.R;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
+import com.supperdrug.customerconsentform.models.Staff;
 import com.supperdrug.customerconsentform.utilities.Utility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Waseem on 27/07/2016.
@@ -39,8 +46,9 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
     private static  final String TAG = CreateCustomerActivity.class.getName();
 
     private Intent intent;
-
+    private Staff staff;
     private String genderStr;
+    private String staffOrAdimStr;
 
     private Button addCustomerBut;
 
@@ -54,13 +62,19 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
     private EditText dob;
     private EditText contactNumber;
     private EditText city;
-    private EditText country;
     private EditText password;
     private EditText retypePassword;
     private EditText registrationDate;
+    private EditText userName;
+    private EditText address;
+
     private RadioGroup gender;
+    private RadioGroup isAdmin;
+
     private TextView errMsg;
 
+    private Spinner branchSpinner;
+    List<String> branchNames = new ArrayList<String>();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -74,7 +88,9 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_staff);
         intent = getIntent();
+        staff = intent.getExtras().getParcelable("staff");
         findViewsById();
+        spinnerData();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -91,20 +107,22 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
         postCode = (EditText) findViewById(R.id.create_staff_post_code);
         surname = (EditText) findViewById(R.id.create_staff_surname);
         forename = (EditText) findViewById(R.id.create_staff_forename);
+        userName = (EditText) findViewById(R.id.create_staff_username);
         dob = (EditText) findViewById(R.id.create_staff_dob);
         city = (EditText) findViewById(R.id.create_staff_city);
-        country = (EditText) findViewById(R.id.create_staff_country);
         password = (EditText) findViewById(R.id.create_staff_password);
         retypePassword = (EditText) findViewById(R.id.create_staff_retype_password);
         registrationDate = (EditText) findViewById(R.id.create_staff_registration_date);
         contactNumber = (EditText) findViewById(R.id.create_staff_phone_number);
+        address = (EditText) findViewById(R.id.create_staff_address);
 
         // < -------- these are all TextView ------->
         errMsg = (TextView) findViewById(R.id.search_error);
         // < -------- these are all Buttons ------->
         gender = (RadioGroup) findViewById(R.id.staff_radioGrp);
+        isAdmin = (RadioGroup) findViewById(R.id.staff_or_adminGrp) ;
         addCustomerBut =(Button) findViewById(R.id.create_staff_button_save);
-
+        branchSpinner = (Spinner) findViewById(R.id.spinner);
 
         addCustomerBut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,10 +147,50 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
                 }
             }
         });
-
+        isAdmin.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioNoButton = (RadioButton) group.findViewById(R.id.no_radio);
+                RadioButton radioYesButton = (RadioButton)group.findViewById(R.id.yes_radio);
+                if(checkedId == radioNoButton.getId())
+                {
+                    staffOrAdimStr = "false";
+                }
+                else if (checkedId == radioYesButton.getId())
+                {
+                    staffOrAdimStr = "true";
+                }
+            }
+        });
 
     }
+private void spinnerData()
+{
+    branchNames.add("BlackBurn");
+    branchNames.add("Dundee");
+    branchNames.add("Rochdale");
+    branchNames.add("Preston");
+    branchNames.add("Bolton");
+    branchNames.add("Burnley");
+    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, branchNames);
 
+    // Drop down layout style - list view with radio button
+    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+    // attaching data adapter to spinner
+    branchSpinner.setAdapter(dataAdapter);
+}
+
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // On selecting a spinner item
+        String item = parent.getItemAtPosition(position).toString();
+
+        // Showing selected spinner item
+        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+    }
+    public void onNothingSelected(AdapterView<?> arg0) {
+        // TODO Auto-generated method stub
+    }
     private void createStaff(View view) {
         String _email = emailAddress.getText().toString();
         String _forename = forename.getText().toString();
@@ -140,17 +198,18 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
         String _dob = dob.getText().toString();
         String _number = contactNumber.getText().toString();
         String _city = city.getText().toString();
-        String _country = country.getText().toString();
         String _regiDate = registrationDate.getText().toString();
         String _postCode =  postCode.getText().toString();
         String _password = password.getText().toString();
         String _retypePassword = retypePassword.getText().toString();
+        String _username = userName.getText().toString();
+        String _address = address.getText().toString();
         //searcForQuery = String.format("Search Query:\n Forename = %s \t\t\t\t\t\t\t\t\t\t\t\t Surname = %s \t\t\t\t\t\t\t\t\t Customer ID = %s \n Email Address = %s \n DOB = %s \t\t\t\t\t\t\t\t\t\t\t\t\t\t Phone Number = %s",forname,surname,id,email,dob,number);
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
 
-        if (!Utility.isNotNull(_email) &&  !Utility.isNotNull(_forename) && !Utility.isNotNull(_surname) && !Utility.isNotNull(_dob) && !Utility.isNotNull(_number)&& !Utility.isNotNull(_postCode)&& !Utility.isNotNull(_city)&& !Utility.isNotNull(_country)
-                && !Utility.isNotNull(_regiDate) )
+        if (!Utility.isNotNull(_email) &&  !Utility.isNotNull(_forename) && !Utility.isNotNull(_surname) && !Utility.isNotNull(_dob) && !Utility.isNotNull(_number)&& !Utility.isNotNull(_postCode)&& !Utility.isNotNull(_city)
+                && !Utility.isNotNull(_regiDate)  )
         {
             Toast.makeText(getApplicationContext(), "Please fill in required text field", Toast.LENGTH_LONG).show();
         }
@@ -159,17 +218,20 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
             {
                 params.add("email_address", _email);
                 params.add("surname", _surname);
-                params.add("forname", _forename);
+                params.add("forename", _forename);
                 params.add("phone_number", _number);
+                params.add("address",_address);
                 params.add("dob", _dob);
                 params.add("post_code", _postCode);
                 params.add("city", _city);
-                params.add("country", _country);
                 params.add("registration_date", _regiDate);
                 params.add("gender", genderStr);
+                params.add("is_admin",staffOrAdimStr);
                 params.add("password", _password);
-
-                if (Utility.isNotNull(_email)) {
+                params.add("branch_name",branchSpinner.getSelectedItem().toString());
+                params.add("username",_username);
+                invokeWS(params);
+/*                if (Utility.isNotNull(_email) ) {
                     if (Utility.validate(_email))
                     {
                         invokeWS(params);
@@ -178,7 +240,7 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
                     {
                         Toast.makeText(getApplicationContext(), "Please enter valid email", Toast.LENGTH_LONG).show();
                     }
-                }
+                }*/
             }
             else
             {
@@ -224,7 +286,9 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
                         errMsg.setText(obj.getString("message"));
                         Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e) {
+                }
+                catch (JSONException e)
+                {
                     Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
 
@@ -256,7 +320,12 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
         CustomerConsentFormRestClient.post("superdrug/createstaff",params ,responsehandler);
     }
 
-    private void navigatetActivity(JSONArray customerJson) {
+    private void navigatetActivity(JSONArray customerJson)
+    {
+        Intent homeIntent = new Intent(getApplicationContext(),MainMenuAdminActivity.class);
+        homeIntent.putExtra("staff",staff);
+        homeIntent.putExtra("Staff_Name",staff.getForename() + " " + staff.getSurname());
+        startActivity(homeIntent);
     }
 
     /**
@@ -309,43 +378,5 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
 
     }
 
-  /*  @Override
-    public void onStart() {
-        super.onStart();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "CreateCustomer Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.supperdrug.customerconsentform.activities/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }*/
-
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//
-//        // ATTENTION: This was auto-generated to implement the App Indexing API.
-//        // See https://g.co/AppIndexing/AndroidStudio for more information.
-//        Action viewAction = Action.newAction(
-//                Action.TYPE_VIEW, // TODO: choose an action type.
-//                "CreateCustomer Page", // TODO: Define a title for the content shown.
-//                // TODO: If you have web page content that matches this app activity's content,
-//                // make sure this auto-generated web page URL is correct.
-//                // Otherwise, set the URL to null.
-//                Uri.parse("http://host/path"),
-//                // TODO: Make sure this auto-generated app URL is correct.
-//                Uri.parse("android-app://com.supperdrug.customerconsentform.activities/http/host/path")
-//        );
-//        AppIndex.AppIndexApi.end(client, viewAction);
-//        client.disconnect();
-//    }
 }

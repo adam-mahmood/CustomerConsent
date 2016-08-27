@@ -8,7 +8,6 @@ import android.os.Parcelable;
  */
 public class SearchQuery implements Parcelable {
     private String email;
-    private String id ;
     private String forename ;
     private String surname;
     private String dob;
@@ -16,16 +15,14 @@ public class SearchQuery implements Parcelable {
 
     protected SearchQuery(Parcel in) {
         email = in.readString();
-        id = in.readString();
         forename = in.readString();
         surname = in.readString();
         dob = in.readString();
         contactNumber = in.readString();
     }
 
-    public SearchQuery(String email, String id, String forename, String surname, String dob, String contactNumber) {
+    public SearchQuery(String email, String forename, String surname, String dob, String contactNumber) {
         this.email = email;
-        this.id = id;
         this.forename = forename;
         this.surname = surname;
         this.dob = dob;
@@ -35,7 +32,6 @@ public class SearchQuery implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(email);
-        dest.writeString(id);
         dest.writeString(forename);
         dest.writeString(surname);
         dest.writeString(dob);
@@ -67,13 +63,7 @@ public class SearchQuery implements Parcelable {
         this.email = email;
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getForename() {
         return forename;

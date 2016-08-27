@@ -3,30 +3,30 @@ package com.supperdrug.customerconsentform.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +42,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +76,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
 
     private Staff staff;
+    private boolean userNameExist = false;
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -78,6 +84,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private  Button mEmailSignInButton;
     private TextView errorMsg;
+
+    private ArrayList<String> userNameList = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +93,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
+
 
         mPasswordView = (EditText) findViewById(R.id.password);
 
@@ -96,9 +105,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 loginUser(view);
             }
         });
+
         errorMsg = (TextView)findViewById(R.id.login_error) ;
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+       load();
+        gridLayoutForUsernames();
     }
 
     private void populateAutoComplete() {
@@ -144,7 +156,105 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    private void saveUserName()  {
 
+        int count;
+
+      for(count = 0; count < userNameList.size() -1; count++);
+        {
+
+            if(userNameList.get(count).equals(mEmailView.getText().toString()) )
+            {
+                Toast.makeText(getBaseContext()," Message: his User Name Exist Not Saving it "+  mEmailView.getText().toString(), Toast.LENGTH_LONG).show();
+               userNameExist =true;
+
+            }
+            else
+            {
+                userNameList.add(mEmailView.getText().toString());
+            }
+
+       }
+        if(!userNameExist)
+        {
+            FileOutputStream userName = null;
+
+            try {
+
+
+                userName = openFileOutput("text.txt", MODE_WORLD_READABLE);
+                ObjectOutputStream oos = new ObjectOutputStream(userName);
+                oos.writeObject(userNameList);
+                oos.flush();
+                oos.close();
+                Toast.makeText(getBaseContext(), "Message" + mEmailView.getText().toString(), Toast.LENGTH_LONG).show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+    }
+
+    private void load()
+    {
+        FileInputStream fis;
+        try {
+            fis = openFileInput("text.txt");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            userNameList = (ArrayList<String>) ois.readObject();
+            ois.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        while (userNameList.size() >5)
+        {
+            userNameList.remove(0);
+        }
+    }
+private void gridLayoutForUsernames() {
+    GridLayout gridLayout = (GridLayout) findViewById(R.id.gridlayout);
+
+    gridLayout.removeAllViews();
+
+
+
+    int row = 1;
+    gridLayout.setRowCount(1);
+    for (int c = 0;  c < userNameList.size();  c++) {
+
+        Button username = new Button(this);
+        username.setId(c+1);
+        username.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.user_icon, 0, 0);
+        final String userNameText = userNameList.get(c);
+        username.setText(userNameText);
+        username.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mEmailView.setText(userNameText);
+            }
+        });
+
+        GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+
+        param.height = GridLayout.LayoutParams.WRAP_CONTENT;
+        param.width = GridLayout.LayoutParams.WRAP_CONTENT;
+        param.rightMargin = 0;
+
+
+        param.topMargin = 0;
+        param.setGravity(Gravity.CENTER);
+        param.columnSpec = GridLayout.spec(c);
+        param.rowSpec = GridLayout.spec(row);
+        gridLayout.addView(username);
+
+
+    }
+}
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
@@ -248,8 +358,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     Log.i(TAG,"Status Code=" + statusCode);
                     // When the JSON response has status boolean value assigned with true
                     if (statusCode == 200){
+
                         Log.i(TAG,"Invoking Web Services Success!");
                         Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_LONG).show();
+
                         // Navigate to Home screen
                         System.out.println(response + ":" + response.get(0));
                         navigatetoHomeAdminActivity(staff);
@@ -289,6 +401,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     // When the JSON response has status boolean value assigned with true
                     if(obj.getInt("status") == 200)
                     {
+                        saveUserName();
+
                         Log.i(TAG,"Invoking Web Services Success!");
                         Log.i(TAG,"You are successfully logged in!");
                         Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_LONG).show();

@@ -141,7 +141,6 @@ public class SearchCustomerResultsActivity extends AppCompatActivity implements 
         email_address = (TextView)findViewById(R.id.customer_records_email_address_text);
         email_address.setText(query.getEmail());
         id = (TextView)findViewById(R.id.customer_records_id_text);
-        id.setText(query.getId());
         dob = (TextView)findViewById(R.id.customer_records_dob_text) ;
         dob.setText(query.getDob());
         customerRecords = (ListView)findViewById(R.id.customer_records_list_view) ;

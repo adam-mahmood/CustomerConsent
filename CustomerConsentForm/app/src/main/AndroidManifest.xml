@@ -53,7 +53,7 @@
 
 	<!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
-        </activity>
+
         <activity android:name=".activities.UploadActivity" android:label="@string/upload">>
 
         </activity>

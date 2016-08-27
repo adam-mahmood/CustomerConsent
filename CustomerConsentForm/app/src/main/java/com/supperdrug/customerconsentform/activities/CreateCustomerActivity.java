@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -23,10 +22,7 @@ import android.widget.Toast;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.ResponseHandlerInterface;
-import com.loopj.android.http.SyncHttpClient;
 import com.supperdrug.customerconsentform.R;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
 import com.supperdrug.customerconsentform.models.Customer;
@@ -145,8 +141,8 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
 
-        if (!Utility.isNotNull(_email) ||  !Utility.isNotNull(_forename) || !Utility.isNotNull(_surname) || !Utility.isNotNull(_dob) || !Utility.isNotNull(_number)|| !Utility.isNotNull(_postCode)|| !Utility.isNotNull(_city)|| !Utility.isNotNull(_country)
-                || !Utility.isNotNull(_regiDate) || !Utility.isNotNull(_address) ){
+        if ( !Utility.isNotNull(_forename) || !Utility.isNotNull(_surname) || !Utility.isNotNull(_dob) ||  !Utility.isNotNull(_postCode)
+                || !Utility.isNotNull(_regiDate)  ){
             Toast.makeText(getApplicationContext(), "Please fill in required text field", Toast.LENGTH_LONG).show();
         }else {
             params.add("email_address",_email);
@@ -160,8 +156,9 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
             params.add("registration_date",_regiDate);
             params.add("address", _address);
             params.add("gender", genderStr);
+            invokeWS(params);
 
-            if (Utility.isNotNull(_email)){
+/*            if (Utility.isNotNull(_email)){
                 if(Utility.validate(_email))
                 {
                     invokeWS(params);
@@ -170,7 +167,7 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
                 {
                     Toast.makeText(getApplicationContext(), "Please enter valid email", Toast.LENGTH_LONG).show();
                 }
-            }
+            }*/
         }
     }
 
