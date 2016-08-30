@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable type="com.supperdrug.customerconsentform.models.Customer" name="customer"/>
+    </data>
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="fill_parent"
+        android:minWidth="400dp"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:id="@+id/edit_customer_progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"/>
+
+        <ScrollView
+            android:id="@+id/edit_customer_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="5dip" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/forename" />
+
+                <EditText
+                    android:id="@+id/edit_forename"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter your Forename"
+                    android:text="@{customer.forename}"
+                    android:inputType="textPersonName" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/surname" />
+
+                <EditText
+                    android:id="@+id/edit_surname"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter your Surename"
+                    android:inputType="textPersonName" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email" />
+
+                <EditText
+                    android:id="@+id/edit_email"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter your Email ID"
+                    android:inputType="textEmailAddress" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact_number" />
+
+                <EditText
+                    android:id="@+id/edit__phone_number"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter your Phone number"
+                    android:inputType="phone" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dob" />
+
+                <EditText
+                    android:id="@+id/edit_dob"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter your D.O.B"
+                    android:inputType="date" />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/address" />
+
+                <EditText
+                    android:id="@+id/edit_address"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter your Address"
+                    android:inputType="text|date" />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/city" />
+
+                <EditText
+                    android:id="@+id/edit_city"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter your City"
+                    android:inputType="text|date" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/post_code" />
+
+                <EditText
+                    android:id="@+id/edit_post_code"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter your Post Code"
+                    android:inputType="text|date" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gender" />
+                <RadioGroup
+                    android:id="@+id/edit_gender_radioGrp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/edit_radioM"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:layout_weight="1"
+                        android:textSize="14dp"
+                        android:text="Male"
+                        />
+                    <RadioButton
+                        android:id="@+id/edit_radioF"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:layout_weight="1"
+                        android:textSize="14dp"
+                        android:text="Female"
+                        />
+                </RadioGroup>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/edit_button_save"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="1dp"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        android:layout_marginTop="20dip"
+                        android:background="#ff6347"
+                        android:text="@string/save"
+                        android:textColor="#fff" />
+                    <Button
+                        android:id="@+id/edit_button_cancel"
+                        android:layout_gravity="right"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dip"
+                        android:background="#ff6347"
+                        android:text="@string/cancel"
+                        android:textColor="#fff" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>

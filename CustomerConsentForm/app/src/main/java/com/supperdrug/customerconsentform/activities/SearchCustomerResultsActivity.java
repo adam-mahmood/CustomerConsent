@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -52,6 +53,8 @@ public class SearchCustomerResultsActivity extends AppCompatActivity implements 
 
     private Customer cus;
 
+    final Context context = this;
+
     private JSONArray customerRecordsJsonArray;
     // UI references.
 
@@ -88,9 +91,9 @@ public class SearchCustomerResultsActivity extends AppCompatActivity implements 
             throw new IllegalStateException("Cannot Create JSONArray");
         }
         ArrayList<Customer> arrayCustomers = Customer.fromJson(customerRecordsJsonArray);
-        System.out.println(arrayCustomers);
-        CustomerAdapter cusAdapter = new CustomerAdapter(this,1,arrayCustomers);
+        CustomerAdapter cusAdapter = new CustomerAdapter(this,1,arrayCustomers,context);
         customerRecords.setAdapter(cusAdapter);
+        customerRecords.setChoiceMode( ListView.CHOICE_MODE_SINGLE);
         customerRecords.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -99,6 +102,7 @@ public class SearchCustomerResultsActivity extends AppCompatActivity implements 
                 getCustomerTreatments(cus);
             }
         });
+
     }
 
     private void getCustomerTreatments(Customer cus) {

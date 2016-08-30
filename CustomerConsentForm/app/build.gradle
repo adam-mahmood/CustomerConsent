@@ -4,6 +4,9 @@ android {
     compileSdkVersion 23
     buildToolsVersion '24.0.0'
 
+    dataBinding {
+        enabled = true
+    }
     defaultConfig {
         applicationId "com.supperdrug.customerconsentform"
         minSdkVersion 19
@@ -28,4 +31,5 @@ dependencies {
     compile files('libs/android-async-http-1.4.4.jar')
     compile 'com.github.gcacace:signature-pad:1.2.0'
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+
 }

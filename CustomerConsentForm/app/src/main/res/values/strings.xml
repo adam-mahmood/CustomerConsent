@@ -51,6 +51,8 @@
     <string name="search_query">Search Query:</string>
     <string name="main_menu">Main Menu</string>
     <string name="branch_name">Branch Name</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 
 
 </resources>

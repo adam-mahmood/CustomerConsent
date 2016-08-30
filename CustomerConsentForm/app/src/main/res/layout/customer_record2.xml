@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="wrap_content" android:layout_height="80dp"
+                    android:layout_weight="1">
+        <TextView
+            android:id="@+id/rec_forename_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forename:"
+            android:textSize="15sp"
+            android:textStyle="italic"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:id="@+id/rec_forename_text"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Test"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/rec_forename_label"/>
+
+        <TextView
+            android:id="@+id/rec_surname_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Surname:"
+            android:textSize="15sp"
+            android:textStyle="italic"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/rec_forename_text"/>
+
+        <TextView
+            android:id="@+id/rec_surname_text"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Test"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/rec_surname_label"/>
+        <TextView
+            android:id="@+id/rec_address_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Address:"
+            android:textSize="15sp"
+            android:textStyle="italic"
+
+            android:layout_below="@id/rec_forename_label"
+            android:layout_alignParentLeft="true"
+            />
+
+        <TextView
+            android:id="@+id/rec_address_text"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Test"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_below="@id/rec_forename_label"
+            android:layout_toRightOf="@+id/rec_address_label"/>
+        <TextView
+            android:id="@+id/rec_email_address_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Email Address:"
+            android:textSize="15sp"
+            android:textStyle="italic"
+            android:layout_below="@id/rec_address_label"
+            android:layout_alignParentLeft="true"
+            />
+
+        <TextView
+            android:id="@+id/rec_email_address_text"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Test"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_below="@id/rec_address_label"
+            android:layout_toRightOf="@+id/rec_email_address_label"/>
+
+        <!--    <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000"
+                android:layout_below="@id/rec_email_address_label">
+
+            </View>-->
+    </RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <ImageButton
+            android:id="@+id/rec_btn_edit"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:descendantFocusability="blocksDescendants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit"/>
+        <ImageButton
+            android:id="@+id/rec_btn_delete"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:descendantFocusability="blocksDescendants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/delete"/>
+    </LinearLayout>
+
+</LinearLayout>

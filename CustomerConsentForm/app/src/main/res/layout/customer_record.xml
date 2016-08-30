@@ -86,11 +86,12 @@
         android:textStyle="bold"
         android:layout_below="@id/rec_address_label"
         android:layout_toRightOf="@+id/rec_email_address_label"/>
-<!--    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#000000"
-        android:layout_below="@id/rec_email_address_label">
 
-    </View>-->
+    <!--    <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#000000"
+            android:layout_below="@id/rec_email_address_label">
+
+        </View>-->
 </RelativeLayout>

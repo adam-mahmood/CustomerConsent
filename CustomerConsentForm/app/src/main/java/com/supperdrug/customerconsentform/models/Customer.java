@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -13,10 +12,10 @@ import java.util.ArrayList;
  * Created by adammahmood on 24/07/2016.
  */
 public class Customer implements Parcelable {
-    private final String forename;
-    private final String surname;
-    private final String dob;
-    private final String gender;
+    private  String forename;
+    private String surname;
+    private  String dob;
+    private  String gender;
     private int customerId;
     private String emailAddress;
     private String phoneNumber;
@@ -143,18 +142,6 @@ public class Customer implements Parcelable {
         return country;
     }
 
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("Customer{");
-        sb.append("customerId=").append(customerId);
-        sb.append(", emailAddress='").append(emailAddress).append('\'');
-        sb.append(", phoneNumber='").append(phoneNumber).append('\'');
-        sb.append(", address='").append(address).append('\'');
-        sb.append(", city='").append(city).append('\'');
-        sb.append(", country='").append(country).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
 
     public String getGender() {
         return gender;
@@ -170,5 +157,80 @@ public class Customer implements Parcelable {
 
     public String getForename() {
         return forename;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public String getRegDate() {
+        return regDate;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
+    }
+
+    public void setRegDate(String regDate) {
+        this.regDate = regDate;
+    }
+
+    public void setForename(String forename) {
+        this.forename = forename;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Customer{");
+        sb.append("forename='").append(forename).append('\'');
+        sb.append(", surname='").append(surname).append('\'');
+        sb.append(", dob='").append(dob).append('\'');
+        sb.append(", gender='").append(gender).append('\'');
+        sb.append(", customerId=").append(customerId);
+        sb.append(", emailAddress='").append(emailAddress).append('\'');
+        sb.append(", phoneNumber='").append(phoneNumber).append('\'');
+        sb.append(", address='").append(address).append('\'');
+        sb.append(", city='").append(city).append('\'');
+        sb.append(", country='").append(country).append('\'');
+        sb.append(", postCode='").append(postCode).append('\'');
+        sb.append(", regDate='").append(regDate).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -1,6 +1,7 @@
 package com.supperdrug.customerconsentform.activities;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -30,6 +31,8 @@ public class ManageStaffActivity extends AppCompatActivity implements LoaderMana
     private View staff_View;
     private Intent searchCustomerResultsIntent;
     private JSONArray staffRecordsJsonArray;
+    private final Context context =this;
+
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -45,7 +48,7 @@ public class ManageStaffActivity extends AppCompatActivity implements LoaderMana
         }
         ArrayList<Customer> arrayCustomers = Customer.fromJson(staffRecordsJsonArray);
         System.out.println(arrayCustomers);
-        CustomerAdapter cusAdapter = new CustomerAdapter(this,1,arrayCustomers);
+        CustomerAdapter cusAdapter = new CustomerAdapter(this,1,arrayCustomers, context);
         staff_Names.setAdapter(cusAdapter);
       /*  staff_Names.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
