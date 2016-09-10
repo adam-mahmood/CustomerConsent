@@ -3,10 +3,7 @@ package com.supperdrug.customerconsentform.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +32,7 @@ import org.json.JSONObject;
 /**
  * Created by Waseem on 26/07/2016.
  */
-public class CreateCustomerActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,WebService {
+public class CreateCustomerActivity extends AppCompatActivity implements WebService {
 
     private static  final String TAG = CreateCustomerActivity.class.getName();
 
@@ -50,7 +47,7 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
     private boolean customerCreated;
 
     private View mProgressView;
-;   private View mFormView;
+    private View mFormView;
 
     private EditText emailAddress;
     private EditText postCode;
@@ -289,20 +286,7 @@ public class CreateCustomerActivity extends AppCompatActivity implements LoaderM
             mFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
 
 
 }

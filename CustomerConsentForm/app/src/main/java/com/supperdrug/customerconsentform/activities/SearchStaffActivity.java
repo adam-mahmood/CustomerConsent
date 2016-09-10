@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,16 +33,11 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * Created by adammahmood on 22/07/2016.
+ * Created by Waseem on 30/08/2016.
  */
-@SuppressWarnings("deprecation")
-public class SearchCustomerActivity extends AppCompatActivity implements View.OnClickListener,WebService {
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
+public  class SearchStaffActivity  extends AppCompatActivity implements View.OnClickListener,WebService  {
 
-    private static  final String TAG = SearchCustomerActivity.class.getName();
+    private static  final String TAG = SearchStaffActivity.class.getName();
 
     private Intent staffIntent;
 
@@ -51,21 +45,21 @@ public class SearchCustomerActivity extends AppCompatActivity implements View.On
     // UI references.
 
     private View mProgressView;
-    private View mSearchCustomerFormView;
-    private EditText customerForename;
-    private EditText customerSurname;
-    private EditText customerEmail;
-    private EditText customerContactNumber;
-    private EditText customerDob;
+    private View mSearchStaffFormView;
+    private EditText staffForename;
+    private EditText staffSurname;
+    private EditText staffEmail;
+    private EditText staffContactNumber;
+    private EditText staffDob;
     private DatePickerDialog dobPickerDialog;
     private SimpleDateFormat dateFormatter;
-    private Button searchCustomer;
+    private Button searchStaff;
     private TextView errMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.search_customer);
+        setContentView(R.layout.search_staff);
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.UK);
         staffIntent = getIntent();
@@ -76,14 +70,14 @@ public class SearchCustomerActivity extends AppCompatActivity implements View.On
     }
 
     private void setDateTimeField() {
-        customerDob.setOnClickListener(this);
+        staffDob.setOnClickListener(this);
         Calendar newCalendar = Calendar.getInstance();
-        dobPickerDialog = new DatePickerDialog(this, new OnDateSetListener() {
+        dobPickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                customerDob.setText(dateFormatter.format(newDate.getTime()));
+                staffDob.setText(dateFormatter.format(newDate.getTime()));
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -92,32 +86,32 @@ public class SearchCustomerActivity extends AppCompatActivity implements View.On
     }
 
     private void findViewsById() {
-        searchCustomer = (Button) findViewById(R.id.btnSearch);
-        searchCustomer.setOnClickListener(new View.OnClickListener() {
+        searchStaff = (Button) findViewById(R.id.btnSearch);
+        searchStaff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                searchCustomer(view);
+                searchStaff(view);
             }
         });
 
 
-        customerForename = (EditText)findViewById(R.id.register_forename) ;
-        customerSurname = (EditText)findViewById(R.id.register_surname) ;
-        customerEmail = (EditText)findViewById(R.id.register_email) ;
-        customerContactNumber = (EditText)findViewById(R.id.register_contact_number) ;
-        customerDob = (EditText)findViewById(R.id.register_dob);
-        customerDob.setInputType(InputType.TYPE_NULL);
-        errMsg = (TextView) findViewById(R.id.search_error);
-        mSearchCustomerFormView = findViewById(R.id.search_customer_view);
+        staffForename = (EditText)findViewById(R.id.register_staff_forename) ;
+        staffSurname = (EditText)findViewById(R.id.register_surname) ;
+        staffEmail = (EditText)findViewById(R.id.register_staff_email) ;
+        staffContactNumber = (EditText)findViewById(R.id.register_staff_contact_number) ;
+        staffDob = (EditText)findViewById(R.id.register_staff_dob);
+        staffDob.setInputType(InputType.TYPE_NULL);
+        errMsg = (TextView) findViewById(R.id.search_staff_error);
+        mSearchStaffFormView = findViewById(R.id.search_staff_view);
         mProgressView = findViewById(R.id.login_progress);
     }
 
-    private void searchCustomer(View view) {
-        String email = customerEmail.getText().toString();
-        String forname = customerForename.getText().toString();
-        String surname = customerSurname.getText().toString();
-        String dob = customerDob.getText().toString();
-        String number = customerContactNumber.getText().toString();
+    private void searchStaff(View view) {
+        String email = staffEmail.getText().toString();
+        String forname = staffForename.getText().toString();
+        String surname = staffSurname.getText().toString();
+        String dob = staffDob.getText().toString();
+        String number = staffContactNumber.getText().toString();
         searcForQuery = new SearchQuery(email,forname,surname,dob,number);
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
@@ -167,11 +161,11 @@ public class SearchCustomerActivity extends AppCompatActivity implements View.On
                     // When the JSON response has status boolean value assigned with true
                     if(obj.getInt("status") == 200){
                         Log.i(TAG,"Invoking Web Services Success!");
-                        Toast.makeText(getApplicationContext(), "Customer Records Found!", Toast.LENGTH_LONG).show();
-                        JSONArray CustomerJson = obj.getJSONArray("result");
-                        System.out.println(CustomerJson);
+                        Toast.makeText(getApplicationContext(), "Staff Records Found!", Toast.LENGTH_LONG).show();
+                        JSONArray staffJson = obj.getJSONArray("result");
+                        System.out.println(staffJson);
                         // Navigate to Customer Records Screen
-                        navigatetoSearchCustomerResultsActivity(CustomerJson);
+                        navigatetoSearchCustomerResultsActivity(staffJson);
 
                     }
                     // Else display error message
@@ -208,13 +202,14 @@ public class SearchCustomerActivity extends AppCompatActivity implements View.On
                 }
             }
         };
-        CustomerConsentFormRestClient.get("superdrug/searchcustomer",params ,responsehandler);
+        //------------------server changes for edit staff need implementing here(  CustomerConsentFormRestClient.get("superdrug/searchstaff",params ,responsehandler);) please delete me when done .-----------------------------
+        CustomerConsentFormRestClient.get("superdrug/searchstaff",params ,responsehandler);
     }
 
-    private void navigatetoSearchCustomerResultsActivity(JSONArray customerJson) {
+    private void navigatetoSearchCustomerResultsActivity(JSONArray staffJson) {
         Intent searchCustomerResultsIntent = new Intent(getApplicationContext(),SearchCustomerResultsActivity.class);
         searchCustomerResultsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        searchCustomerResultsIntent.putExtra("customerRecords",customerJson.toString());
+        searchCustomerResultsIntent.putExtra("staffRecords",staffJson.toString());
         searchCustomerResultsIntent.putExtra("searchForQuery", searcForQuery);
         searchCustomerResultsIntent.putExtra("Staff_Name",staffIntent.getStringExtra("Staff_Name"));
         searchCustomerResultsIntent.putExtra("staff",staffIntent.getExtras().getParcelable("staff"));
@@ -232,12 +227,12 @@ public class SearchCustomerActivity extends AppCompatActivity implements View.On
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mSearchCustomerFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mSearchCustomerFormView.animate().setDuration(shortAnimTime).alpha(
+            mSearchStaffFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mSearchStaffFormView.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mSearchCustomerFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    mSearchStaffFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
 
@@ -253,7 +248,7 @@ public class SearchCustomerActivity extends AppCompatActivity implements View.On
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mSearchCustomerFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mSearchStaffFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 

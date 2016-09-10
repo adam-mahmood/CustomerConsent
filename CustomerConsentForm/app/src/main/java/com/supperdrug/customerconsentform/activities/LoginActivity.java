@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    private static  final String TAG = LoginActivity.class.getName();
+    private static final String TAG = LoginActivity.class.getName();
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -82,10 +82,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private  Button mEmailSignInButton;
+    private Button mEmailSignInButton;
     private TextView errorMsg;
 
     private ArrayList<String> userNameList = new ArrayList<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,10 +107,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        errorMsg = (TextView)findViewById(R.id.login_error) ;
+        errorMsg = (TextView) findViewById(R.id.login_error);
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-       load();
+        load();
         gridLayoutForUsernames();
     }
 
@@ -156,31 +157,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    private void saveUserName()  {
+    private void saveUserName() {
 
-        int count;
+        if (userNameList.contains(mEmailView.getText().toString())) {
+            Toast.makeText(getBaseContext(), " Message: his User Name Exist Not Saving it " + mEmailView.getText().toString(), Toast.LENGTH_LONG).show();
+            userNameExist = true;
+        } else {
+            userNameList.add(mEmailView.getText().toString());
+        }
+        if (userNameList.size() == 0) {
+            userNameList.add(mEmailView.getText().toString());
+        }
 
-      for(count = 0; count < userNameList.size() -1; count++);
-        {
-
-            if(userNameList.get(count).equals(mEmailView.getText().toString()) )
-            {
-                Toast.makeText(getBaseContext()," Message: his User Name Exist Not Saving it "+  mEmailView.getText().toString(), Toast.LENGTH_LONG).show();
-               userNameExist =true;
-
-            }
-            else
-            {
-                userNameList.add(mEmailView.getText().toString());
-            }
-
-       }
-        if(!userNameExist)
-        {
+        if (!userNameExist) {
             FileOutputStream userName = null;
 
             try {
-
 
                 userName = openFileOutput("text.txt", MODE_WORLD_READABLE);
                 ObjectOutputStream oos = new ObjectOutputStream(userName);
@@ -195,66 +187,65 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
 
-
     }
 
-    private void load()
-    {
+    private void load() {
         FileInputStream fis;
         try {
             fis = openFileInput("text.txt");
             ObjectInputStream ois = new ObjectInputStream(fis);
             userNameList = (ArrayList<String>) ois.readObject();
+            Log.i(TAG, "user Name count" + userNameList.size());
             ois.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        while (userNameList.size() >5)
-        {
+        while (userNameList.size() > 5) {
             userNameList.remove(0);
         }
     }
-private void gridLayoutForUsernames() {
-    GridLayout gridLayout = (GridLayout) findViewById(R.id.gridlayout);
 
-    gridLayout.removeAllViews();
+    private void gridLayoutForUsernames() {
+        GridLayout gridLayout = (GridLayout) findViewById(R.id.gridlayout);
 
-
-
-    int row = 1;
-    gridLayout.setRowCount(1);
-    for (int c = 0;  c < userNameList.size();  c++) {
-
-        Button username = new Button(this);
-        username.setId(c+1);
-        username.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.user_icon, 0, 0);
-        final String userNameText = userNameList.get(c);
-        username.setText(userNameText);
-        username.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                mEmailView.setText(userNameText);
-            }
-        });
-
-        GridLayout.LayoutParams param = new GridLayout.LayoutParams();
-
-        param.height = GridLayout.LayoutParams.WRAP_CONTENT;
-        param.width = GridLayout.LayoutParams.WRAP_CONTENT;
-        param.rightMargin = 0;
+        gridLayout.removeAllViews();
 
 
-        param.topMargin = 0;
-        param.setGravity(Gravity.CENTER);
-        param.columnSpec = GridLayout.spec(c);
-        param.rowSpec = GridLayout.spec(row);
-        gridLayout.addView(username);
+        int row = 1;
+        gridLayout.setRowCount(1);
+        for (int c = 0; c < userNameList.size(); c++) {
+
+            Button username = new Button(this);
+            username.setId(c + 1);
+            username.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.user_icon, 0, 0);
+            final String userNameText = userNameList.get(c);
+            username.setText(userNameText);
+            username.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    mEmailView.setText(userNameText);
+                }
+            });
+
+            GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+
+            param.height = GridLayout.LayoutParams.WRAP_CONTENT;
+            param.width = GridLayout.LayoutParams.WRAP_CONTENT;
+            param.rightMargin = 0;
 
 
+            param.topMargin = 0;
+            param.setGravity(Gravity.CENTER);
+            param.columnSpec = GridLayout.spec(c);
+            param.rowSpec = GridLayout.spec(row);
+            gridLayout.addView(username);
+
+
+        }
     }
-}
+
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
@@ -306,34 +297,36 @@ private void gridLayoutForUsernames() {
             mAuthTask.execute((Void) null);
         }
     }
+
     /**
      * Method gets triggered when login button is cliced
+     *
      * @param view
      */
-    public void loginUser(View view){
+    public void loginUser(View view) {
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
         // When Email Edit View and Password Edit View have values other than Null
-        if(Utility.isNotNull(email) && Utility.isNotNull(password)){
+        if (Utility.isNotNull(email) && Utility.isNotNull(password)) {
             // When Email entered is Valid
-            if(Utility.validate(email)){
+            if (Utility.validate(email)) {
                 // Put Http parameter username with value of Email Edit View control
                 params.put("email", email);
                 // Put Http parameter password with value of Password Edit Value control
                 params.put("password", password);
                 // Invoke RESTful Web Service with Http parameters
-                Log.i(TAG,"Invoking Web Services");
+                Log.i(TAG, "Invoking Web Services");
                 invokeWS(params);
             }
             // When Email is invalid
-            else{
+            else {
                 Toast.makeText(getApplicationContext(), "Please enter valid email", Toast.LENGTH_LONG).show();
             }
         }
         // When any of the Edit View control left blank
-        else{
+        else {
             Toast.makeText(getApplicationContext(), "Please fill the form, don't leave any field blank", Toast.LENGTH_LONG).show();
         }
 
@@ -344,10 +337,10 @@ private void gridLayoutForUsernames() {
      *
      * @param params
      */
-    public void invokeWS(RequestParams params){
+    public void invokeWS(RequestParams params) {
         // Show Progress Dialog
         showProgress(true);
-        Log.i(TAG,"Web Services Invoked");
+        Log.i(TAG, "Web Services Invoked");
         JsonHttpResponseHandler responsehandler2 = new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, JSONArray response) {
@@ -355,11 +348,11 @@ private void gridLayoutForUsernames() {
                 // Hide Progress Dialog
                 showProgress(false);
                 try {
-                    Log.i(TAG,"Status Code=" + statusCode);
+                    Log.i(TAG, "Status Code=" + statusCode);
                     // When the JSON response has status boolean value assigned with true
-                    if (statusCode == 200){
+                    if (statusCode == 200) {
 
-                        Log.i(TAG,"Invoking Web Services Success!");
+                        Log.i(TAG, "Invoking Web Services Success!");
                         Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_LONG).show();
 
                         // Navigate to Home screen
@@ -399,78 +392,80 @@ private void gridLayoutForUsernames() {
                     JSONObject obj = new JSONObject(response);
 
                     // When the JSON response has status boolean value assigned with true
-                    if(obj.getInt("status") == 200)
-                    {
+                    if (obj.getInt("status") == 200) {
                         saveUserName();
 
-                        Log.i(TAG,"Invoking Web Services Success!");
-                        Log.i(TAG,"You are successfully logged in!");
+                        Log.i(TAG, "Invoking Web Services Success!");
+                        Log.i(TAG, "You are successfully logged in!");
                         Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_LONG).show();
                         JSONArray staffJson = obj.getJSONArray("staff");
-                        staff = new Staff(staffJson.getString(0),staffJson.getString(1),staffJson.getString(2),staffJson.getString(4),staffJson.getString(5),staffJson.getBoolean(3), staffJson.getString(6));
+                        //staff = new Staff(staffJson.getString(0),staffJson.getString(1),staffJson.getString(2),staffJson.getString(4),staffJson.getString(5),staffJson.getBoolean(3), staffJson.getString(6), staffJson.getString(11), staffJson.getString(12), staffJson.getString(13), staffJson.getString(6), regDate, , );
+                        staff = new Staff(staffJson);
                         System.out.println(staff.isAdmin());
                         // Navigate to Home screen
-                        if (obj.getBoolean("isAdmin")){
+                        if (obj.getBoolean("isAdmin")) {
 
                             navigatetoHomeAdminActivity(staff);
-                        }else {
+                        } else {
                             navigatetoHomeActivity(staff);
                         }
                     }
                     // Else display error message
-                    else
-                    {
+                    else {
                         errorMsg.setText(obj.getString("message"));
                         Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
                     }
-                } catch (JSONException e)
-                {
+                } catch (JSONException e) {
                     Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
 
                 }
             }
+
             // When the response returned by REST has Http response code other than '200'
             @Override
             public void onFailure(int statusCode, Throwable error,
                                   String content) {
-                Log.i(TAG,"Invoking Web Services Failed");
-                Log.i(TAG,"Status Code= " +statusCode);
+                Log.i(TAG, "Invoking Web Services Failed");
+                Log.i(TAG, "Status Code= " + statusCode);
                 // Hide Progress Dialog
                 showProgress(false);
                 // When Http response code is '404'
-                if(statusCode == 404){
+                if (statusCode == 404) {
                     Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
                 }
                 // When Http response code is '500'
-                else if(statusCode == 500){
+                else if (statusCode == 500) {
                     Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
                 }
                 // When Http response code other than 404, 500
-                else{
+                else {
                     Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet or remote server is not up and running]", Toast.LENGTH_LONG).show();
                 }
             }
         };
-        CustomerConsentFormRestClient.post("superdrug/login/authenticatestaff",params ,responsehandler);
+        CustomerConsentFormRestClient.post("superdrug/login/authenticatestaff", params, responsehandler);
     }
 
     /**
      * Method which navigates from Login Activity to Home Activity
+     *
      * @param staff
      */
-    public void navigatetoHomeAdminActivity(Staff staff){
-        Intent homeIntent = new Intent(getApplicationContext(),MainMenuAdminActivity.class);
+    public void navigatetoHomeAdminActivity(Staff staff) {
+        Intent homeIntent = new Intent(getApplicationContext(), MainMenuAdminActivity.class);
         homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        homeIntent.putExtra("staff",staff);
+        homeIntent.putExtra("staff", staff);
         startActivity(homeIntent);
     }
-    public void navigatetoHomeActivity(Staff staff){
-        Intent homeIntent = new Intent(getApplicationContext(),MainMenuActivity.class);
+
+    public void navigatetoHomeActivity(Staff staff) {
+        Intent homeIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
         homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        homeIntent.putExtra("staff",staff);
+        homeIntent.putExtra("staff", staff);
         startActivity(homeIntent);
     }
+
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");

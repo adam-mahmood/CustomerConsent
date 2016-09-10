@@ -18,16 +18,19 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="5dip" >
+        android:padding="5dip"
+        android:weightSum="1">
         <!-- View Title Label -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dip"
+            android:layout_marginLeft="30px"
             android:layout_gravity="left"
             android:text="@string/upload"
             android:textSize="15sp"
             android:textStyle="bold" />
+
         <RelativeLayout
             android:id="@+id/upload_customer_details_view"
             android:layout_width="match_parent"
@@ -144,6 +147,7 @@
                 android:layout_below="@id/upload_dob_text"></View>
 
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/upload_treatments"
             android:layout_width="match_parent"
@@ -158,8 +162,57 @@
             android:text="Treatments"
             android:textSize="15sp"
             android:textStyle="bold"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"></View>
 
         </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView2"
+            android:layout_gravity="center_horizontal">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:text="@string/first_consent_info"
+                    android:textSize="12dp"/>
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:text="@string/second_consent_info"
+                    android:textSize="12dp"/>
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:text="@string/third_conset_info"
+                    android:textSize="12dp"/>
+            </LinearLayout>
+        </ScrollView>
 
         <RelativeLayout
             android:id="@+id/upload_signature_layout"

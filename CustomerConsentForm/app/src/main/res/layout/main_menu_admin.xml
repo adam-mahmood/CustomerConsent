@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activities.MainMenuAdminActivity"
-    android:background="@drawable/bg">
+    android:background="@drawable/abc_list_longpressed_holo">
 
     <!-- Login progress -->
 
@@ -21,69 +21,77 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone"/>
 
-    <ScrollView
-        android:id="@+id/main_menu_form_view"
+    <GridLayout
+        android:id="@+id/main_menu_form_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:baselineAligned="false"
+        android:paddingTop="35dp"
+        android:weightSum="1"
+        android:columnCount="2"
+        android:rowCount="3"
+        android:alignmentMode="alignBounds"
+        >
 
-        <LinearLayout
-            android:id="@+id/main_menu_form_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:baselineAligned="false"
-            android:paddingTop="35dp"
-            android:weightSum="1">
 
+        <ImageButton
+            android:layout_width="@dimen/main_menu_button_width"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:id="@+id/image_button_search"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:background="@drawable/search_client"
+            />
 
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/image_button_search"
-                android:src="@drawable/search_existing_member"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:background="#00ffffff" />
+        <ImageButton
+            android:layout_width="@dimen/main_menu_button_width"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:id="@+id/image_button_create_new_customer"
+            android:scaleType="fitCenter"
+            android:background="@drawable/add_user_client"
+            android:paddingBottom="-200dp"
+            android:adjustViewBounds="true"
+            android:layout_column="1"
+            android:layout_row="0"/>
 
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/image_button_create_new_customer"
-                android:src="@drawable/create_new_member"
-                android:layout_marginRight="0dp"
-                android:layout_margin="0dp"
-                android:scaleType="fitCenter"
-                android:background="#01ffffff"
-                android:paddingBottom="-200dp"
-                android:adjustViewBounds="true" />
+        <ImageButton
+            android:layout_width="@dimen/main_menu_button_width"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:id="@+id/image_button_sign_out"
+            android:layout_marginRight="0dp"
+            android:layout_margin="0dp"
+            android:scaleType="fitCenter"
+            android:visibility="visible"
+            android:background="@drawable/logout_user_blue"
+            android:adjustViewBounds="true"
+            android:layout_column="0"
+            android:layout_row="1"/>
 
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/image_button_sign_out"
-                android:src="@drawable/logout_user"
-                android:layout_marginRight="0dp"
-                android:layout_margin="0dp"
-                android:scaleType="fitCenter"
-                android:visibility="visible"
-                android:background="#00ffffff"
-                android:adjustViewBounds="true" />
+        <ImageButton
+            android:layout_width="@dimen/main_menu_button_width"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:id="@+id/image_button_manage_accounts"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:background="@drawable/manage_staff_blue"
+            android:textAlignment="gravity"
+            android:textStyle="normal"
+            android:textSize="19dp"
+            android:layout_column="1"
+            android:layout_row="1"/>
 
-            <Button
-                android:layout_width="308dp"
-                android:layout_height="80dp"
-                android:id="@+id/image_button_manage_accounts"
-                android:src="@drawable/button"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:background="@drawable/manage_staff"
-                android:textAlignment="gravity"
-                android:textStyle="normal"
-                android:textSize="19dp"
-                android:layout_weight="314" />
+        <ImageButton
+            android:layout_width="@dimen/main_menu_button_width"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:text="New Button"
+            android:id="@+id/button"
+            android:layout_column="0"
+            android:layout_row="2"
+            android:background="#1640e4"
+            android:src="@drawable/branch_button"/>
 
-        </LinearLayout>
-    </ScrollView>
+    </GridLayout>
 
 </LinearLayout>

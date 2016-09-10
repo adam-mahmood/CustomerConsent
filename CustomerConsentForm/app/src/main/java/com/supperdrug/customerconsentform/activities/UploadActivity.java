@@ -3,17 +3,16 @@ package com.supperdrug.customerconsentform.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
@@ -38,18 +37,12 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by adammahmood on 27/07/2016.
  */
-public class UploadActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,View.OnClickListener,WebService {
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
+public class UploadActivity extends AppCompatActivity implements View.OnClickListener,WebService {
 
     private static  final String TAG = SearchCustomerActivity.class.getName();
 
@@ -159,6 +152,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
             checkedText.setClickable(false);
             checkedText.setChecked(true);
             checkedText.setCheckMarkDrawable(checkMarkDrawableResId);
+            checkedText.setGravity(Gravity.CENTER);
             layoutTreatments.addView(checkedText);
             treatmentIds[i] = Integer.parseInt(selectedTreatments2.get(i).getTreatmentId());
         }
@@ -193,31 +187,11 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
                 params.add("treatment_ids", String.valueOf(treatmentIds[i]));
             }
             params.add("upload_date", String.valueOf(date.getText()));
-            //params.put("signature_byte_array", byteArray);
-            for (int i = 0;i < byteArray.length;i++){
-                params.add("signature_byte_array", String.valueOf(byteArray[i]));
-                System.out.println(String.valueOf(byteArray[i]));
-            }
-            params.put("signature_bitmap", decodeByteArray());
+            String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+            params.put("signature_image_string", encodedImage);
             invokeWS(params);
 
         }
-
-    }
-
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
 
     }
 

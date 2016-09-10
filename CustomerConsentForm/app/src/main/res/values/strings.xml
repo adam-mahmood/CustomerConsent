@@ -37,6 +37,7 @@
     <string name="create_staff">Create Staff</string>
     <string name="retype_password">Retype Password </string>
     <string name="manage_staff">Manage Staff  </string>
+    <string name="search_staff">Search For Staff  </string>
 
     <!-- Strings related to Treatments -->
     <string name="treatments">Treatments</string>
@@ -53,6 +54,20 @@
     <string name="branch_name">Branch Name</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="first_consent_info">I have read and understand the customer consent form.
+        I have undertaken the tinting/glue patch test and have observed a 24 hour waiting period after the patch test has been performed.
+        I agree that GE Brow Bar or Superdrug cannot be held responsible for any allergic reaction of the tinting treatment.</string>
+    <string name="second_consent_info">I have had a consultation with the therapist who will be performing this procedure and all my questions concerning the process have been answered to my satisfaction.
+        I agree to undertake the tinting/lash extension treatment and fully agree to the Terms and Conditions listed below associated with this treatment.
+        I agree that GE Brow Bar or Superdrug cannot be held responsible for any allergic reaction as a result of this treatment.</string>
+    <string name="third_conset_info"> <b>Terms and Condition</b>\n
+
+        Before giving my consent by signing this form, I have been informed of the methods, nature and schedule of this procedure.
+        I have also undertaken a patch test and observed a 24 hour waiting period after the patch
+        test has been performed.\n
+        I agree to the terms and conditions of this form and I also agree that GE Brow Bar or Superdrug cannot be held responsible for any allergic reaction as a result of this treatment.
+        Therefore there will be no consequent fault by GE Brow Bar Superdrug and I cannot request any monetary or complimentary service repercussions,
+        (whether monetary or complimentary service/treatment reparation, refunding or compensation) to be made to myself by GE Brow Bar or Superdrug, after the tinting/lash extension treatment has been completed on this day. (Refer to the aforementioned date).</string>
 
 
 </resources>

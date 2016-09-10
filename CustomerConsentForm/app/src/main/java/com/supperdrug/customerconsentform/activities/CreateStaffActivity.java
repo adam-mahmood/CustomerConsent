@@ -3,10 +3,7 @@ package com.supperdrug.customerconsentform.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,10 +21,13 @@ import android.widget.Toast;
 
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.supperdrug.customerconsentform.R;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
+import com.supperdrug.customerconsentform.models.Branch;
 import com.supperdrug.customerconsentform.models.Staff;
 import com.supperdrug.customerconsentform.utilities.Utility;
 
@@ -35,13 +35,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by Waseem on 27/07/2016.
  */
-public class CreateStaffActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,WebService {
+public class CreateStaffActivity extends AppCompatActivity implements WebService {
 
     private static  final String TAG = CreateCustomerActivity.class.getName();
 
@@ -74,7 +76,7 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
     private TextView errMsg;
 
     private Spinner branchSpinner;
-    List<String> branchNames = new ArrayList<String>();
+    List<Branch> branchNames = new ArrayList<Branch>();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -89,6 +91,10 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
         setContentView(R.layout.add_staff);
         intent = getIntent();
         staff = intent.getExtras().getParcelable("staff");
+        String branchListAsString = getIntent().getStringExtra("branchList");
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Branch>>(){}.getType();
+        branchNames.addAll((Collection<? extends Branch>) gson.fromJson(branchListAsString,type));
         findViewsById();
         spinnerData();
 
@@ -166,13 +172,7 @@ public class CreateStaffActivity extends AppCompatActivity implements LoaderMana
     }
 private void spinnerData()
 {
-    branchNames.add("BlackBurn");
-    branchNames.add("Dundee");
-    branchNames.add("Rochdale");
-    branchNames.add("Preston");
-    branchNames.add("Bolton");
-    branchNames.add("Burnley");
-    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, branchNames);
+    ArrayAdapter<Branch> dataAdapter = new ArrayAdapter<Branch>(this, android.R.layout.simple_spinner_item, branchNames);
 
     // Drop down layout style - list view with radio button
     dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -363,20 +363,4 @@ private void spinnerData()
             mFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
-
-
 }
