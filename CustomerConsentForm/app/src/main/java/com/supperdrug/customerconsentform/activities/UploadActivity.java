@@ -3,7 +3,9 @@ package com.supperdrug.customerconsentform.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -21,6 +23,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.supperdrug.customerconsentform.R;
@@ -28,12 +32,14 @@ import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestCli
 import com.supperdrug.customerconsentform.models.Customer;
 import com.supperdrug.customerconsentform.models.CustomerTreatment;
 import com.supperdrug.customerconsentform.models.Staff;
+import com.supperdrug.customerconsentform.utilities.Constants;
 import com.supperdrug.customerconsentform.utilities.Utility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,9 +88,10 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.upload);
 
         intent = getIntent();
-        cus =(Customer) intent.getExtras().getParcelable("customer");
-        staff =(Staff) intent.getExtras().getParcelable("staff");
-        selectedTreatments2 = intent.getExtras().getParcelableArrayList("selectedTreatments2");
+        //cus =(Customer) intent.getExtras().getParcelable("customer");
+        //staff =(Staff) intent.getExtras().getParcelable("staff");
+        //selectedTreatments2 = intent.getExtras().getParcelableArrayList("selectedTreatments2");
+        loadData();
         treatmentIds= new int[selectedTreatments2.size()];
         byteArray = intent.getByteArrayExtra("signature_byte_array");
 
@@ -93,6 +100,20 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 
 
 
+    }
+
+    private void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(getPackageName() + Constants.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String jsonCus = sharedPreferences.getString(Constants.CUSTOMER_KEY, "N/A");
+        cus = gson.fromJson(jsonCus,Customer.class);
+
+        String jsonStaff = sharedPreferences.getString(Constants.STAFF_KEY, "N/A");
+        staff = gson.fromJson(jsonStaff,Staff.class);
+
+        String json = sharedPreferences.getString(Constants.SELECTED_TREATMENTS_KEY, "N/A");
+        Type type = new TypeToken<ArrayList<CustomerTreatment>>() {}.getType();
+        selectedTreatments2 = gson.fromJson(json, type);
     }
 
     private Bitmap decodeByteArray() {
@@ -106,9 +127,9 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         therapistName = (TextView)findViewById(R.id.upload_therapist_name_text);
         therapistName.setText(staff.getForename() + " " + staff.getSurname());
         date = (TextView) findViewById(R.id.upload_date_text);
-        DateFormat df = new SimpleDateFormat("dd/MM/yy");
+        DateFormat df = new SimpleDateFormat("dd/MM/yy hh:mm:ss");
         date.setText(df.format(new Date()));
-
+        System.out.println(df.format(new Date()));
         customerName = (TextView) findViewById(R.id.upload_customer_name_text);
         customerName.setText(cus.getForename() + " " + cus.getSurname());
         dob = (TextView)findViewById(R.id.upload_dob_text);

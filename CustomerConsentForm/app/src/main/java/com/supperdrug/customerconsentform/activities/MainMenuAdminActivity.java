@@ -49,7 +49,7 @@ public class MainMenuAdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu_admin);
         staffIntent = getIntent();
-        staff = staffIntent.getExtras().getParcelable("staff");
+        //staff = staffIntent.getExtras().getParcelable("staff");
         // Set up the login form.
         searchCustomer = (ImageButton) findViewById(R.id.image_button_search);
         searchCustomer.setOnClickListener(new View.OnClickListener() {
@@ -86,16 +86,16 @@ public class MainMenuAdminActivity extends AppCompatActivity {
     private void navigateToSearchCustomerView(View view) {
         Intent searchCustomerIntent = new Intent(getApplicationContext(),SearchCustomerActivity.class);
         searchCustomerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        searchCustomerIntent.putExtra("Staff_Name",staff.getForename() + " " + staff.getSurname());
-        searchCustomerIntent.putExtra("staff",staff);
+//        searchCustomerIntent.putExtra("Staff_Name",staff.getForename() + " " + staff.getSurname());
+//        searchCustomerIntent.putExtra("staff",staff);
         startActivity(searchCustomerIntent);
     }
 
     private void navigateToCreateCustomerView(View view) {
         Intent createCustomerIntent = new Intent(getApplicationContext(),CreateCustomerActivity.class);
         createCustomerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        createCustomerIntent.putExtra("staff",staff);
-        createCustomerIntent.putExtra("Staff_Name",staff.getForename() + " " + staff.getSurname());
+        //createCustomerIntent.putExtra("staff",staff);
+        //createCustomerIntent.putExtra("Staff_Name",staff.getForename() + " " + staff.getSurname());
        // createCustomerIntent.putExtra("Staff",staff);
         startActivity(createCustomerIntent);
     }
@@ -103,15 +103,14 @@ public class MainMenuAdminActivity extends AppCompatActivity {
     private void navigateToManageStaffView(View view) {
         Intent createStaffIntent = new Intent(getApplicationContext(),ManageStaffActivity.class);
         createStaffIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        createStaffIntent.putExtra("staff",staff);
-        createStaffIntent.putExtra("Staff_Name",staff.getForename() + " " + staff.getSurname());
+        //createStaffIntent.putExtra("staff",staff);
+        //createStaffIntent.putExtra("Staff_Name",staff.getForename() + " " + staff.getSurname());
         // createCustomerIntent.putExtra("Staff",staff);
         startActivity(createStaffIntent);
     }
     private void navigateToLogoutView(View view) {
         Intent logoutIntent = new Intent(getApplicationContext(),LoginActivity.class);
         logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        // createCustomerIntent.putExtra("Staff",staff);
         startActivity(logoutIntent);
     }
     /**
@@ -138,9 +137,6 @@ public class MainMenuAdminActivity extends AppCompatActivity {
                     if(obj.getInt("status") == 200){
                         Log.i(TAG,"Invoking Web Services Success!");
                         Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_LONG).show();
-                        // Navigate to Home screen
-                        //navigatetoHomeAdminActivity();
-
                     }
                     // Else display error message
                     else{

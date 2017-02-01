@@ -5,7 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +25,7 @@ import com.loopj.android.http.RequestParams;
 import com.supperdrug.customerconsentform.R;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
 import com.supperdrug.customerconsentform.models.SearchQuery;
+import com.supperdrug.customerconsentform.utilities.Constants;
 import com.supperdrug.customerconsentform.utilities.Utility;
 
 import org.json.JSONArray;
@@ -169,7 +172,8 @@ public class SearchCustomerActivity extends AppCompatActivity implements View.On
                         Log.i(TAG,"Invoking Web Services Success!");
                         Toast.makeText(getApplicationContext(), "Customer Records Found!", Toast.LENGTH_LONG).show();
                         JSONArray CustomerJson = obj.getJSONArray("result");
-                        System.out.println(CustomerJson);
+                        Log.i(TAG,CustomerJson.toString());
+                        saveData(CustomerJson);
                         // Navigate to Customer Records Screen
                         navigatetoSearchCustomerResultsActivity(CustomerJson);
 
@@ -214,11 +218,21 @@ public class SearchCustomerActivity extends AppCompatActivity implements View.On
     private void navigatetoSearchCustomerResultsActivity(JSONArray customerJson) {
         Intent searchCustomerResultsIntent = new Intent(getApplicationContext(),SearchCustomerResultsActivity.class);
         searchCustomerResultsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        searchCustomerResultsIntent.putExtra("customerRecords",customerJson.toString());
+        //searchCustomerResultsIntent.putExtra("customerRecords",customerJson.toString());
         searchCustomerResultsIntent.putExtra("searchForQuery", searcForQuery);
-        searchCustomerResultsIntent.putExtra("Staff_Name",staffIntent.getStringExtra("Staff_Name"));
-        searchCustomerResultsIntent.putExtra("staff",staffIntent.getExtras().getParcelable("staff"));
+//        searchCustomerResultsIntent.putExtra("Staff_Name",staffIntent.getStringExtra("Staff_Name"));
+//        searchCustomerResultsIntent.putExtra("staff",staffIntent.getExtras().getParcelable("staff"));
         startActivity(searchCustomerResultsIntent);
+    }
+
+    private void saveData(JSONArray customerJson) {
+
+        SharedPreferences sharedPreferences = getSharedPreferences(getPackageName() + Constants.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor =  sharedPreferences.edit();
+
+        editor.putString(Constants.CUSTOMER_RECORDS_KEY,customerJson.toString());
+        editor.apply();
+
     }
 
     /**

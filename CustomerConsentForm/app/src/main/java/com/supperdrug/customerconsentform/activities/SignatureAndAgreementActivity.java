@@ -3,7 +3,9 @@ package com.supperdrug.customerconsentform.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,11 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.gcacace.signaturepad.views.SignaturePad;
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.supperdrug.customerconsentform.R;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
 import com.supperdrug.customerconsentform.models.Staff;
+import com.supperdrug.customerconsentform.utilities.Constants;
 import com.supperdrug.customerconsentform.utilities.Utility;
 
 import org.json.JSONArray;
@@ -46,8 +50,6 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
 
     private boolean isSigned;
 
-    private String staffName;
-
     private Staff staff;
 
     private Bitmap signature;
@@ -70,8 +72,8 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signature_and_agreement);
         intent = getIntent();
-        staffName = intent.getStringExtra("Staff_Name");
-        staff = intent.getExtras().getParcelable("staff");
+        //staff = intent.getExtras().getParcelable("staff");
+        loadData();
         findViewsById();
 
         signaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
@@ -114,6 +116,13 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
 
     }
 
+    private void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(getPackageName() + Constants.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
+        String jsonStaff = sharedPreferences.getString(Constants.STAFF_KEY, "N/A");
+        Gson gson = new Gson();
+        staff = gson.fromJson(jsonStaff,Staff.class);
+    }
+
     private void navigateToUploadActivity() {
         Intent uploadIntent = new Intent(getApplicationContext(),UploadActivity.class);
         uploadIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -125,9 +134,7 @@ public class SignatureAndAgreementActivity extends AppCompatActivity implements 
         }
         signature.compress(Bitmap.CompressFormat.PNG, 50, bs);
         uploadIntent.putExtra("signature_byte_array",bs.toByteArray());
-        uploadIntent.putExtra("staff",staff);
-        uploadIntent.putExtra("customer",intent.getExtras().getParcelable("customer"));
-        uploadIntent.putParcelableArrayListExtra("selectedTreatments2",intent.getExtras().getParcelableArrayList("selectedTreatments2"));
+
         startActivity(uploadIntent);
     }
 

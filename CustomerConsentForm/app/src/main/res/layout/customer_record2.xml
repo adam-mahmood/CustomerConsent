@@ -122,6 +122,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/delete"/>
+        <ImageButton
+            android:id="@+id/rec_btn_info"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:descendantFocusability="blocksDescendants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/info"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.supperdrug.customerconsentform.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.supperdrug.customerconsentform.adapters.StaffAdapter;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
 import com.supperdrug.customerconsentform.models.Branch;
 import com.supperdrug.customerconsentform.models.Staff;
+import com.supperdrug.customerconsentform.utilities.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,7 +82,7 @@ public class ManageStaffActivity extends AppCompatActivity implements WebService
 
         });
         staffIntent = getIntent();
-        staff = staffIntent.getExtras().getParcelable("staff");
+        //staff = staffIntent.getExtras().getParcelable("staff");
 
     }
     private void findObjectsByID()
@@ -101,10 +103,6 @@ public class ManageStaffActivity extends AppCompatActivity implements WebService
     private void navigateToCreateStaffView(View view) {
         Intent createStaffIntent = new Intent(getApplicationContext(),CreateStaffActivity.class);
         createStaffIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        createStaffIntent.putExtra("staff",staff);
-        createStaffIntent.putExtra("Staff_Name",staff.getForename() + " " + staff.getSurname());
-        createStaffIntent.putExtra("branchList",gson.toJson(branchNames));
-        // createCustomerIntent.putExtra("Staff",staff);
         startActivity(createStaffIntent);
     }
     private void spinnerData()
@@ -113,7 +111,18 @@ public class ManageStaffActivity extends AppCompatActivity implements WebService
         RequestParams params = new RequestParams();
         invokeWS(params);
     }
+    private void save() {
+        if (branchNames != null){
+            SharedPreferences sharedPreferences = getSharedPreferences(getPackageName() + Constants.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor =  sharedPreferences.edit();
 
+            //Serlisation
+            String branchNamesJsonString = gson.toJson(branchNames);
+            Log.i(TAG,branchNamesJsonString);
+            editor.putString(Constants.BRANCH_NAMES_KEY,branchNamesJsonString);
+            editor.apply();
+        }
+    }
     private void populateStaffListView()
     {
         // need array list of staff names
@@ -177,7 +186,7 @@ public class ManageStaffActivity extends AppCompatActivity implements WebService
             private void getStaff(JSONObject obj) throws JSONException {
                 Toast.makeText(getApplicationContext(), "Retrieving Staff Members!", Toast.LENGTH_LONG).show();
                 staffRecordsJsonArray = obj.getJSONArray("results");
-                ArrayList<Staff> arrayStaff  = staff.fromJson(staffRecordsJsonArray);
+                ArrayList<Staff> arrayStaff  = Staff.fromJson(staffRecordsJsonArray);
                 StaffAdapter staffAdapter = new StaffAdapter(context,1,arrayStaff);
                 staffNames.setAdapter(staffAdapter);
                 staffNames.setChoiceMode( ListView.CHOICE_MODE_SINGLE);
@@ -199,6 +208,7 @@ public class ManageStaffActivity extends AppCompatActivity implements WebService
                     jsonBranchArr = (JSONArray) resultsJson.get(i);
                     branchNames.add(new Branch(jsonBranchArr.get(0).toString(),jsonBranchArr.get(1).toString()));
                 }
+                save();
             }
 
             // When the response returned by REST has Http response code other than '200'

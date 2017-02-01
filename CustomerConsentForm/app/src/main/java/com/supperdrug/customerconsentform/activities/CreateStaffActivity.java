@@ -3,7 +3,9 @@ package com.supperdrug.customerconsentform.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +31,7 @@ import com.supperdrug.customerconsentform.R;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
 import com.supperdrug.customerconsentform.models.Branch;
 import com.supperdrug.customerconsentform.models.Staff;
+import com.supperdrug.customerconsentform.utilities.Constants;
 import com.supperdrug.customerconsentform.utilities.Utility;
 
 import org.json.JSONArray;
@@ -45,7 +48,7 @@ import java.util.List;
  */
 public class CreateStaffActivity extends AppCompatActivity implements WebService {
 
-    private static  final String TAG = CreateCustomerActivity.class.getName();
+    private static  final String TAG = CreateStaffActivity.class.getName();
 
     private Intent intent;
     private Staff staff;
@@ -82,7 +85,7 @@ public class CreateStaffActivity extends AppCompatActivity implements WebService
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-
+    private Gson gson;
 
 
     @Override
@@ -90,9 +93,13 @@ public class CreateStaffActivity extends AppCompatActivity implements WebService
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_staff);
         intent = getIntent();
-        staff = intent.getExtras().getParcelable("staff");
-        String branchListAsString = getIntent().getStringExtra("branchList");
-        Gson gson = new Gson();
+        //staff = intent.getExtras().getParcelable("staff");
+        SharedPreferences sharedPreferences = getSharedPreferences(getPackageName() + Constants.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
+        String branchListAsString = sharedPreferences.getString(Constants.BRANCH_NAMES_KEY, null);
+        gson = new Gson();
+        //String branchListAsString = getIntent().getStringExtra("branchList");
+        System.out.println("brach: " + branchListAsString);
+        Log.i(TAG,branchListAsString);
         Type type = new TypeToken<List<Branch>>(){}.getType();
         branchNames.addAll((Collection<? extends Branch>) gson.fromJson(branchListAsString,type));
         findViewsById();
@@ -323,8 +330,8 @@ private void spinnerData()
     private void navigatetActivity(JSONArray customerJson)
     {
         Intent homeIntent = new Intent(getApplicationContext(),MainMenuAdminActivity.class);
-        homeIntent.putExtra("staff",staff);
-        homeIntent.putExtra("Staff_Name",staff.getForename() + " " + staff.getSurname());
+        //homeIntent.putExtra("staff",staff);
+        //homeIntent.putExtra("Staff_Name",staff.getForename() + " " + staff.getSurname());
         startActivity(homeIntent);
     }
 

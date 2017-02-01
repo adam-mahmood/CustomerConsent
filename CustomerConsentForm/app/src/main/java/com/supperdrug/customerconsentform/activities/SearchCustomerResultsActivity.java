@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.supperdrug.customerconsentform.R;
@@ -22,7 +24,7 @@ import com.supperdrug.customerconsentform.adapters.CustomerAdapter;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
 import com.supperdrug.customerconsentform.models.Customer;
 import com.supperdrug.customerconsentform.models.SearchQuery;
-import com.supperdrug.customerconsentform.models.Staff;
+import com.supperdrug.customerconsentform.utilities.Constants;
 import com.supperdrug.customerconsentform.utilities.Utility;
 
 import org.json.JSONArray;
@@ -75,13 +77,13 @@ public class SearchCustomerResultsActivity extends AppCompatActivity {
         // Set up the login form.
         findViewsById();
 
-        String rec = searchCustomerResultsIntent.getStringExtra("customerRecords");
-
+        //String rec = searchCustomerResultsIntent.getStringExtra("customerRecords");
+        SharedPreferences sharedPreferences = getSharedPreferences(getPackageName() + Constants.SHARED_PREFERENCES_FILE_NAME,Context.MODE_PRIVATE);
+        String rec = sharedPreferences.getString(Constants.CUSTOMER_RECORDS_KEY,"N/A");
         try {
             customerRecordsJsonArray = new JSONArray(rec);
         } catch (JSONException e) {
-            e.printStackTrace();
-            throw new IllegalStateException("Cannot Create JSONArray");
+            throw new IllegalStateException("Cannot Create JSONArray",e);
         }
         ArrayList<Customer> arrayCustomers = Customer.fromJson(customerRecordsJsonArray);
         CustomerAdapter cusAdapter = new CustomerAdapter(this,1,arrayCustomers,context);
@@ -115,16 +117,16 @@ public class SearchCustomerResultsActivity extends AppCompatActivity {
         }
     }
 
-    private void navigateToTreatementsActivity(JSONArray customerJson) {
+    private void navigateToTreatementsActivity() {
         Intent treatmentsIntent = new Intent(getApplicationContext(),TreatmentsResultsActivity.class);
-        Bundle mBundle = new Bundle();
+        //Bundle mBundle = new Bundle();
         treatmentsIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        treatmentsIntent.putExtra("customerTreatments",customerJson.toString());
-        treatmentsIntent.putExtra("Staff_Name",searchCustomerResultsIntent.getStringExtra("Staff_Name"));
-        Staff staff = (Staff)searchCustomerResultsIntent.getExtras().getParcelable("staff");
-        treatmentsIntent.putExtra("staff",staff);
-        mBundle.putParcelable("customer",cus);
-        treatmentsIntent.putExtras(mBundle);
+        //treatmentsIntent.putExtra("customerTreatments",customerJson.toString());
+       //treatmentsIntent.putExtra("Staff_Name",searchCustomerResultsIntent.getStringExtra("Staff_Name"));
+        //Staff staff = (Staff)searchCustomerResultsIntent.getExtras().getParcelable("staff");
+        //treatmentsIntent.putExtra("staff",staff);
+        //mBundle.putParcelable("customer",cus);
+        //treatmentsIntent.putExtras(mBundle);
         startActivity(treatmentsIntent);
     }
 
@@ -170,8 +172,9 @@ public class SearchCustomerResultsActivity extends AppCompatActivity {
                         Log.i(TAG,"Invoking Web Services Success!");
                         Toast.makeText(getApplicationContext(), "Retrieving Customer Treatments!", Toast.LENGTH_LONG).show();
                         JSONArray CustomerTreatmentsJson = obj.getJSONArray("results");
+                        saveData(CustomerTreatmentsJson,cus);
                         // Navigate to Customer Treatments Screen
-                        navigateToTreatementsActivity(CustomerTreatmentsJson);
+                        navigateToTreatementsActivity();
 
                     }
                     // Else display error message
@@ -189,9 +192,8 @@ public class SearchCustomerResultsActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Throwable error,
                                   String content) {
-                Log.i(TAG,"Invoking Web Services Failed");
-                Log.i(TAG,"Status Code= " +statusCode);
-                System.out.println(statusCode);
+                Log.i(TAG,"Web Services Failed with status code " + statusCode);
+
                 // Hide Progress Dialog
                 showProgress(false);
                 // When Http response code is '404'
@@ -210,6 +212,20 @@ public class SearchCustomerResultsActivity extends AppCompatActivity {
         };
         CustomerConsentFormRestClient.get("superdrug/customertreatments",params ,responsehandler);
     }
+
+    private void saveData(JSONArray customerTreatmentsJson, Customer cus) {
+        SharedPreferences sharedPreferences = getSharedPreferences(getPackageName() + Constants.SHARED_PREFERENCES_FILE_NAME,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Gson gson = new Gson();
+        String customerJdonString = gson.toJson(cus, Customer.class);
+        Log.i(TAG,customerJdonString);
+        editor.putString(Constants.CUSTOMER_KEY, customerJdonString);
+        Log.i(TAG,customerTreatmentsJson.toString());
+        editor.putString(Constants.CUSTOMER_TREATMENTS_KEY,customerTreatmentsJson.toString());
+        editor.apply();
+    }
+
     /**
      * Shows the progress UI and hides the login form.
      */

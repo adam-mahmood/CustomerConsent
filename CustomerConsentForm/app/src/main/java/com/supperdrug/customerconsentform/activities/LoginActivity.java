@@ -4,9 +4,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -30,12 +32,14 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.supperdrug.customerconsentform.R;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
 import com.supperdrug.customerconsentform.models.Staff;
+import com.supperdrug.customerconsentform.utilities.Constants;
 import com.supperdrug.customerconsentform.utilities.Utility;
 
 import org.json.JSONArray;
@@ -394,17 +398,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     // When the JSON response has status boolean value assigned with true
                     if (obj.getInt("status") == 200) {
                         saveUserName();
-
-                        Log.i(TAG, "Invoking Web Services Success!");
                         Log.i(TAG, "You are successfully logged in!");
                         Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_LONG).show();
                         JSONArray staffJson = obj.getJSONArray("staff");
-                        //staff = new Staff(staffJson.getString(0),staffJson.getString(1),staffJson.getString(2),staffJson.getString(4),staffJson.getString(5),staffJson.getBoolean(3), staffJson.getString(6), staffJson.getString(11), staffJson.getString(12), staffJson.getString(13), staffJson.getString(6), regDate, , );
                         staff = new Staff(staffJson);
-                        System.out.println(staff.isAdmin());
+                        saveStaff();
                         // Navigate to Home screen
                         if (obj.getBoolean("isAdmin")) {
-
                             navigatetoHomeAdminActivity(staff);
                         } else {
                             navigatetoHomeActivity(staff);
@@ -445,6 +445,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         };
         CustomerConsentFormRestClient.post("superdrug/login/authenticatestaff", params, responsehandler);
+    }
+
+    private void saveStaff() {
+        if (staff != null){
+            SharedPreferences sharedPreferences = getSharedPreferences(getPackageName() + Constants.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor =  sharedPreferences.edit();
+
+            //Serlisation
+            Gson gson = new Gson();
+            String staffJsonString = gson.toJson(staff,Staff.class);
+            Log.i(TAG,staffJsonString);
+            editor.putString(Constants.STAFF_KEY,staffJsonString);
+            editor.apply();
+        }
     }
 
     /**

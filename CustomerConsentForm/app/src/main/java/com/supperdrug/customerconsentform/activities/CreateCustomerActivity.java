@@ -3,7 +3,9 @@ package com.supperdrug.customerconsentform.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,16 +20,21 @@ import android.widget.Toast;
 
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.supperdrug.customerconsentform.R;
 import com.supperdrug.customerconsentform.httpclients.CustomerConsentFormRestClient;
 import com.supperdrug.customerconsentform.models.Customer;
+import com.supperdrug.customerconsentform.utilities.Constants;
 import com.supperdrug.customerconsentform.utilities.Utility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Waseem on 26/07/2016.
@@ -75,7 +82,7 @@ public class CreateCustomerActivity extends AppCompatActivity implements WebServ
         setContentView(R.layout.add_customers);
         intent = getIntent();
         findViewsById();
-
+        customerCreated = false;
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -93,6 +100,7 @@ public class CreateCustomerActivity extends AppCompatActivity implements WebServ
         registrationDate = (EditText) findViewById(R.id.create_registration_date);
         contactNumber = (EditText) findViewById(R.id.create__phone_number);
         address = (EditText) findViewById(R.id.create_address);
+        registrationDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
 
         gender = (RadioGroup) findViewById(R.id.radioGrp);
         errMsg = (TextView) findViewById(R.id.search_error);
@@ -138,8 +146,7 @@ public class CreateCustomerActivity extends AppCompatActivity implements WebServ
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
 
-        if ( !Utility.isNotNull(_forename) || !Utility.isNotNull(_surname) || !Utility.isNotNull(_dob) ||  !Utility.isNotNull(_postCode)
-                || !Utility.isNotNull(_regiDate)  ){
+        if ( !Utility.isNotNull(_forename) || !Utility.isNotNull(_surname)  ||  !Utility.isNotNull(_postCode)){
             Toast.makeText(getApplicationContext(), "Please fill in required text field", Toast.LENGTH_LONG).show();
         }else {
             params.add("email_address",_email);
@@ -177,7 +184,7 @@ public class CreateCustomerActivity extends AppCompatActivity implements WebServ
     public void invokeWS(final RequestParams params){
         // Show Progress Dialog
        showProgress(true);
-
+        Log.i(TAG,"params:" + params.toString());
 
         AsyncHttpResponseHandler responsehandler = new AsyncHttpResponseHandler() {
             // When the response returned by REST has Http response code '200'
@@ -198,6 +205,7 @@ public class CreateCustomerActivity extends AppCompatActivity implements WebServ
                             customer = new Customer(CustomerJson);
                             customerCreated = true;
                             JSONArray customerTreatments = obj.getJSONArray("treatments");
+                            saveData(customer,customerTreatments);
                             System.out.println(customerTreatments);
                             navigateActivity(customerTreatments);
                         }
@@ -240,13 +248,26 @@ public class CreateCustomerActivity extends AppCompatActivity implements WebServ
         CustomerConsentFormRestClient.post(url,params ,responsehandler);
     }
 
+    private void saveData( Customer customer, JSONArray customerTreatments) {
+        SharedPreferences sharedPreferences = getSharedPreferences(getPackageName() + Constants.SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor =  sharedPreferences.edit();
+        Gson gson = new Gson();
+        //Serlisation
+        String cusString = gson.toJson(customer);
+        Log.i(TAG,cusString);
+        editor.putString(Constants.CUSTOMER_KEY,cusString);
+
+        editor.putString(Constants.CUSTOMER_TREATMENTS_KEY,customerTreatments.toString());
+        editor.apply();
+    }
+
     private void navigateActivity(JSONArray CustomerTreatmentsJson)
     {
         Intent treatmentIntent = new Intent(getApplicationContext(),TreatmentsResultsActivity.class);
         treatmentIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        treatmentIntent.putExtra("customer",customer);
-        treatmentIntent.putExtra("customerTreatments",CustomerTreatmentsJson.toString());
-        treatmentIntent.putExtra("staff",intent.getExtras().getParcelable("staff"));
+        //treatmentIntent.putExtra("customer",customer);
+        //treatmentIntent.putExtra("customerTreatments",CustomerTreatmentsJson.toString());
+        //treatmentIntent.putExtra("staff",intent.getExtras().getParcelable("staff"));
         // createCustomerIntent.putExtra("Staff",staff);
         startActivity(treatmentIntent);
     }

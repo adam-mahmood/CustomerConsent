@@ -50,11 +50,10 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/image_button_create_new_customer"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/add_user_client"
                 android:layout_marginRight="0dp"
                 android:layout_margin="0dp"
                 android:scaleType="fitCenter"
-                android:background="#00ffffff"
+                android:background="@drawable/add_client"
                 android:layout_column="1"
                 android:layout_row="0"/>
 
@@ -63,12 +62,11 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/image_button_sign_out"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/logout_user_blue"
                 android:layout_marginRight="0dp"
                 android:layout_margin="0dp"
                 android:scaleType="fitCenter"
                 android:visibility="visible"
-                android:background="#00ffffff"
+                android:background="@drawable/uder_logout"
                 android:layout_column="0"
                 android:layout_row="1"/>
 
