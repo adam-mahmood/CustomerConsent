@@ -33,6 +33,7 @@ public class CustomerAdapter extends ArrayAdapter<Customer>  {
         TextView phoneNumber;
         ImageButton edit;
         ImageButton delete;
+        ImageButton info;
 
     }
 
@@ -69,6 +70,7 @@ public class CustomerAdapter extends ArrayAdapter<Customer>  {
             viewHolder.emailAddress = (TextView) convertView.findViewById(R.id.rec_email_address_text);
             viewHolder.edit = (ImageButton) convertView.findViewById(R.id.rec_btn_edit);
             viewHolder.delete = (ImageButton) convertView.findViewById(R.id.rec_btn_delete);
+            viewHolder.info = (ImageButton) convertView.findViewById(R.id.rec_btn_info);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -94,6 +96,15 @@ public class CustomerAdapter extends ArrayAdapter<Customer>  {
             @Override
             public void onClick(View v) {
                 System.out.println("Delete Button Clicked");
+            }
+        });
+
+        viewHolder.info.setFocusable(false);
+        viewHolder.info.setFocusableInTouchMode(false);
+        viewHolder.info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Info Button Clicked");
             }
         });
         // Return the completed view to render on screen

@@ -93,7 +93,7 @@ public class SearchCustomerResultsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 cus =(Customer) parent.getItemAtPosition(position);
-                //Toast.makeText(getBaseContext(), cus.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), cus.toString(), Toast.LENGTH_LONG).show();
                 getCustomerTreatments(cus);
             }
         });
